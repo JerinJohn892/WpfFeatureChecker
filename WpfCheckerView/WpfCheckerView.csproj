@@ -13,4 +13,8 @@
     <PackageReference Include="Syncfusion.SfGrid.WPF" Version="29.1.41" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CustomControls\CustomControls.csproj" />
+  </ItemGroup>
+
 </Project>

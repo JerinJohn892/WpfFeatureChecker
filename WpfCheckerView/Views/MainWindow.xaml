@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:local="clr-namespace:WpfCheckerView.Views"
+        xmlns:controls="clr-namespace:CustomControls;assembly=CustomControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -43,7 +44,7 @@
                       Grid.Row="2" Grid.Column="1" />
 
             <TextBlock Text="Salary:" VerticalAlignment="Center" Width="100" Grid.Row="3" Grid.Column="0" />
-            <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeSalary, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" />
+            <controls:DoubleTextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeSalary, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" />
 
             <TextBlock Text="ID Proof:" VerticalAlignment="Center" Width="100" Grid.Row="4" Grid.Column="0" />
             <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeIdProof, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" />
