@@ -8,7 +8,26 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <syncfusion:SfDataGrid x:Name="dataGrid" AutoGenerateColumns="True"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
+            <TextBlock Text="ID:" VerticalAlignment="Center" />
+            <TextBox Width="80" Margin="5,0" Text="{Binding NewEmployeeId, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="Name:" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeName, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="Department:" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <ComboBox Width="120" Margin="5,0"
+                      ItemsSource="{Binding Departments}"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Name"
+                      SelectedValue="{Binding NewEmployeeDepartment, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Content="Add" Margin="10,0,0,0" Command="{Binding AddNewEmployeeCommand}" />
+        </StackPanel>
+
+        <syncfusion:SfDataGrid Grid.Row="1" x:Name="dataGrid" AutoGenerateColumns="True"
                                ItemsSource="{Binding Employees}"
                                AllowEditing="True"
                                AddNewRowPosition="Top">
