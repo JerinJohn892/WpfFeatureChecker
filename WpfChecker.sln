@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfCheckerView", "WpfCheckerView\WpfCheckerView.csproj", "{D1BCC1A7-8E23-4B1B-BB59-7CAE6EB3A7B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1BCC1A7-8E23-4B1B-BB59-7CAE6EB3A7B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1BCC1A7-8E23-4B1B-BB59-7CAE6EB3A7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1BCC1A7-8E23-4B1B-BB59-7CAE6EB3A7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1BCC1A7-8E23-4B1B-BB59-7CAE6EB3A7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B21D8D81-8018-47D0-8140-641E32CC1959}
+	EndGlobalSection
+EndGlobal
