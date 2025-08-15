@@ -26,6 +26,15 @@ namespace WpfCheckerView.ViewModels
         [ObservableProperty]
         private string newEmployeeDepartment = string.Empty;
 
+        [ObservableProperty]
+        private string newEmployeeSalary = string.Empty;
+
+        [ObservableProperty]
+        private string newEmployeeIdProof = string.Empty;
+
+        [ObservableProperty]
+        private string newEmployeePanNo = string.Empty;
+
         public MainViewModel(IEmployeeService employeeService, IDepartmentService departmentService)
         {
             _employeeService = employeeService;
@@ -49,12 +58,16 @@ namespace WpfCheckerView.ViewModels
         {
             if (string.IsNullOrWhiteSpace(NewEmployeeId) ||
                 string.IsNullOrWhiteSpace(NewEmployeeName) ||
-                string.IsNullOrWhiteSpace(NewEmployeeDepartment))
+                string.IsNullOrWhiteSpace(NewEmployeeDepartment) ||
+                string.IsNullOrWhiteSpace(NewEmployeeSalary) ||
+                string.IsNullOrWhiteSpace(NewEmployeeIdProof) ||
+                string.IsNullOrWhiteSpace(NewEmployeePanNo))
             {
                 return;
             }
 
-            if (!int.TryParse(NewEmployeeId, out var id))
+            if (!int.TryParse(NewEmployeeId, out var id) ||
+                !decimal.TryParse(NewEmployeeSalary, out var salary))
             {
                 return;
             }
@@ -63,7 +76,10 @@ namespace WpfCheckerView.ViewModels
             {
                 Id = id,
                 Name = NewEmployeeName,
-                Department = NewEmployeeDepartment
+                Department = NewEmployeeDepartment,
+                Salary = salary,
+                IdProof = NewEmployeeIdProof,
+                PanNo = NewEmployeePanNo
             };
 
             AddEmployee(employee);
@@ -71,6 +87,9 @@ namespace WpfCheckerView.ViewModels
             NewEmployeeId = string.Empty;
             NewEmployeeName = string.Empty;
             NewEmployeeDepartment = string.Empty;
+            NewEmployeeSalary = string.Empty;
+            NewEmployeeIdProof = string.Empty;
+            NewEmployeePanNo = string.Empty;
         }
     }
 }

@@ -13,18 +13,36 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
-            <TextBlock Text="ID:" VerticalAlignment="Center" />
-            <TextBox Width="80" Margin="5,0" Text="{Binding NewEmployeeId, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="Name:" VerticalAlignment="Center" Margin="10,0,0,0" />
-            <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeName, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="Department:" VerticalAlignment="Center" Margin="10,0,0,0" />
-            <ComboBox Width="120" Margin="5,0"
-                      ItemsSource="{Binding Departments}"
-                      DisplayMemberPath="Name"
-                      SelectedValuePath="Name"
-                      SelectedValue="{Binding NewEmployeeDepartment, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Content="Add" Margin="10,0,0,0" Command="{Binding AddNewEmployeeCommand}" />
+        <StackPanel Orientation="Vertical" Margin="10" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="ID:" VerticalAlignment="Center" Width="100" />
+                <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeId, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="Name:" VerticalAlignment="Center" Width="100" />
+                <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeName, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="Department:" VerticalAlignment="Center" Width="100" />
+                <ComboBox Width="120" Margin="5,0"
+                          ItemsSource="{Binding Departments}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Name"
+                          SelectedValue="{Binding NewEmployeeDepartment, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="Salary:" VerticalAlignment="Center" Width="100" />
+                <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeSalary, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="ID Proof:" VerticalAlignment="Center" Width="100" />
+                <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeIdProof, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="Pan No.:" VerticalAlignment="Center" Width="100" />
+                <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeePanNo, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <Button Content="Add" Width="80" Margin="0,5" HorizontalAlignment="Left" Command="{Binding AddNewEmployeeCommand}" />
         </StackPanel>
 
         <syncfusion:SfDataGrid Grid.Row="1" x:Name="dataGrid" AutoGenerateColumns="True"
@@ -40,6 +58,9 @@
                     ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
                     DisplayMemberPath="Name"
                     ValueMemberPath="Name" />
+                <syncfusion:GridTextColumn MappingName="Salary" HeaderText="Salary" />
+                <syncfusion:GridTextColumn MappingName="IdProof" HeaderText="ID Proof" />
+                <syncfusion:GridTextColumn MappingName="PanNo" HeaderText="Pan No" />
             </syncfusion:SfDataGrid.Columns>
         </syncfusion:SfDataGrid>
     </Grid>
