@@ -11,10 +11,10 @@ namespace WpfCheckerView.ViewModels
         private readonly IDepartmentService _departmentService;
 
         [ObservableProperty]
-        private ObservableCollection<Employee> employees = new();
+        private ObservableCollection<Employee> employees = null!;
 
         [ObservableProperty]
-        private ObservableCollection<Department> departments = new();
+        private ObservableCollection<Department> departments = null!;
 
         public MainViewModel(IEmployeeService employeeService, IDepartmentService departmentService)
         {
@@ -25,8 +25,13 @@ namespace WpfCheckerView.ViewModels
 
         private void LoadData()
         {
-            Employees = new ObservableCollection<Employee>(_employeeService.GetEmployees());
-            Departments = new ObservableCollection<Department>(_departmentService.GetDepartments());
+            Employees = _employeeService.GetEmployees();
+            Departments = _departmentService.GetDepartments();
+        }
+
+        public void AddEmployee(Employee employee)
+        {
+            _employeeService.AddEmployee(employee);
         }
     }
 }

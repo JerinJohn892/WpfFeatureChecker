@@ -1,10 +1,12 @@
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WpfCheckerView.Models;
 
 namespace WpfCheckerView.Services
 {
     public interface IEmployeeService
     {
-        IEnumerable<Employee> GetEmployees();
+        ObservableCollection<Employee> GetEmployees();
+
+        void AddEmployee(Employee employee);
     }
 }

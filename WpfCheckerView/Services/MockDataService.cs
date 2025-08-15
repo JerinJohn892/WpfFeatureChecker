@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WpfCheckerView.Models;
 
 namespace WpfCheckerView.Services
@@ -8,19 +8,12 @@ namespace WpfCheckerView.Services
     /// </summary>
     public class MockDataService : IEmployeeService, IDepartmentService
     {
-        public IEnumerable<Employee> GetEmployees()
-        {
-            return new[]
-            {
-                new Employee { Id = 1, Name = "Alice", Department = "HR" },
-                new Employee { Id = 2, Name = "Bob", Department = "IT" },
-                new Employee { Id = 3, Name = "Charlie", Department = "Finance" }
-            };
-        }
+        private readonly ObservableCollection<Employee> _employees;
+        private readonly ObservableCollection<Department> _departments;
 
-        public IEnumerable<Department> GetDepartments()
+        public MockDataService()
         {
-            return new[]
+            _departments = new ObservableCollection<Department>
             {
                 new Department { Id = 1, Level = 1, Name = "Administration", Package = "A" },
                 new Department { Id = 2, Level = 2, Name = "IT", Package = "B" },
@@ -28,6 +21,22 @@ namespace WpfCheckerView.Services
                 new Department { Id = 4, Level = 1, Name = "HR", Package = "A" },
                 new Department { Id = 5, Level = 3, Name = "Sales", Package = "B" }
             };
+
+            _employees = new ObservableCollection<Employee>
+            {
+                new Employee { Id = 1, Name = "Alice", Department = "HR" },
+                new Employee { Id = 2, Name = "Bob", Department = "IT" },
+                new Employee { Id = 3, Name = "Charlie", Department = "Finance" }
+            };
+        }
+
+        public ObservableCollection<Employee> GetEmployees() => _employees;
+
+        public ObservableCollection<Department> GetDepartments() => _departments;
+
+        public void AddEmployee(Employee employee)
+        {
+            _employees.Add(employee);
         }
     }
 }
