@@ -67,9 +67,35 @@ public class PatternTextBox : TextBox
         if (_mask is null || string.IsNullOrEmpty(e.Text))
             return;
 
-        var raw = GetRawText();
-        var placeholder = GetPlaceholder(raw.Length);
-        if (placeholder is null || !IsCharAllowed(e.Text[0], placeholder.Value))
+        // Determine the current position within the mask
+        var caret = CaretIndex;
+        var rawCaret = GetRawCaretIndex();
+
+        if (caret < _mask.Length && !IsPlaceholder(_mask[caret]))
+        {
+            // We are at a literal position (e.g. space or hyphen). Always insert the
+            // literal and, if the typed character is valid for the next placeholder,
+            // insert it as well.
+            var literal = _mask[caret];
+            Text = Text.Insert(caret, literal.ToString());
+            CaretIndex = caret + 1;
+
+            if (e.Text[0] != literal)
+            {
+                var placeholder = GetPlaceholder(rawCaret);
+                if (placeholder.HasValue && IsCharAllowed(e.Text[0], placeholder.Value))
+                {
+                    Text = Text.Insert(CaretIndex, NormalizeChar(e.Text[0], placeholder.Value).ToString());
+                    CaretIndex++;
+                }
+            }
+
+            e.Handled = true;
+            return;
+        }
+
+        var nextPlaceholder = GetPlaceholder(rawCaret);
+        if (nextPlaceholder is null || !IsCharAllowed(e.Text[0], nextPlaceholder.Value))
             e.Handled = true;
     }
 
@@ -324,6 +350,7 @@ public class PatternTextBox : TextBox
                         "A-Z" => "A",
                         "a-z" => "a",
                         "0-9" => "#",
+                        "2-9" => "#",
                         "A-Z0-9" => "X",
                         "0-9A-Z" => "X",
                         _ => null
