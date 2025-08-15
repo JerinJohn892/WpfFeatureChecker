@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WpfCheckerView.Models;
 
 namespace WpfCheckerView.Services
 {
     public interface IDepartmentService
     {
-        IEnumerable<Department> GetDepartments();
+        ObservableCollection<Department> GetDepartments();
     }
 }

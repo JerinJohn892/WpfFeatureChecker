@@ -8,7 +8,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <syncfusion:SfDataGrid x:Name="dataGrid" AutoGenerateColumns="True" ItemsSource="{Binding Employees}">
+        <syncfusion:SfDataGrid x:Name="dataGrid" AutoGenerateColumns="True"
+                               ItemsSource="{Binding Employees}"
+                               AllowEditing="True"
+                               AddNewRowPosition="Top">
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID" />
                 <syncfusion:GridTextColumn MappingName="Name" HeaderText="Name" />
@@ -16,7 +19,8 @@
                     MappingName="Department"
                     HeaderText="Department"
                     ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
-                    DisplayMemberPath="Name" />
+                    DisplayMemberPath="Name"
+                    ValueMemberPath="Name" />
             </syncfusion:SfDataGrid.Columns>
         </syncfusion:SfDataGrid>
     </Grid>
