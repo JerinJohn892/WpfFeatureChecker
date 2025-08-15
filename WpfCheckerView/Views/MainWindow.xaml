@@ -1,24 +1,22 @@
-﻿<Window x:Class="WpfCheckerView.MainWindow"
+<Window x:Class="WpfCheckerView.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-        xmlns:local="clr-namespace:WpfCheckerView"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:local="clr-namespace:WpfCheckerView.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <syncfusion:SfDataGrid x:Name="dataGrid" AutoGenerateColumns="True" ItemsSource="{Binding Employees}">
-
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID" />
                 <syncfusion:GridTextColumn MappingName="Name" HeaderText="Name" />
                 <syncfusion:GridComboBoxColumn
-            MappingName="Department"
-            HeaderText="Department"
-            ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
-                     DisplayMemberPath="Name"
-            SelectedValuePath=""/>
+                    MappingName="Department"
+                    HeaderText="Department"
+                    ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
+                    DisplayMemberPath="Name" />
             </syncfusion:SfDataGrid.Columns>
         </syncfusion:SfDataGrid>
     </Grid>
