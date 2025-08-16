@@ -99,6 +99,48 @@ public class PatternTextBox : TextBox
             e.Handled = true;
     }
 
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (_mask is not null && SelectionLength == 0 && (e.Key == Key.Back || e.Key == Key.Delete))
+        {
+            var rawCaret = GetRawCaretIndex();
+            var raw = GetRawText();
+
+            if (e.Key == Key.Back)
+            {
+                if (rawCaret == 0)
+                {
+                    e.Handled = true;
+                    return;
+                }
+                raw = raw.Remove(rawCaret - 1, 1);
+                rawCaret--;
+            }
+            else // Delete
+            {
+                if (rawCaret >= raw.Length)
+                {
+                    e.Handled = true;
+                    return;
+                }
+                raw = raw.Remove(rawCaret, 1);
+            }
+
+            _isFormatting = true;
+            raw = FilterRaw(raw);
+            var (formatted, caret) = ApplyMask(raw, rawCaret);
+            Text = formatted;
+            CaretIndex = caret;
+            _isFormatting = false;
+            UpdateIsValid();
+
+            e.Handled = true;
+            return;
+        }
+
+        base.OnPreviewKeyDown(e);
+    }
+
     protected override void OnTextChanged(TextChangedEventArgs e)
     {
         base.OnTextChanged(e);
