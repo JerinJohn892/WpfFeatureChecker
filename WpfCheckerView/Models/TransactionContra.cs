@@ -27,7 +27,10 @@ namespace WpfCheckerView.Models
 
         internal decimal TotalSum()
         {
-            return  (decimal?)SuspenseAmt + (decimal?)ChequeAmt + (decimal?)TrAmount + (decimal?)SdAmount ?? 0;
+            return (decimal)((SuspenseAmt ?? 0) +
+                             (ChequeAmt ?? 0) +
+                             (TrAmount ?? 0) +
+                             (SdAmount ?? 0));
         }
     }
 }
