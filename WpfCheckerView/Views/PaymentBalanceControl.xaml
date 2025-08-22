@@ -108,7 +108,6 @@
                     <TextBox Text="{Binding TransContra.Remarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,0,0,5" />
                 </Grid>
             </Expander>
-
             <TextBlock Text="To other heads" FontWeight="Bold" Margin="0,5,0,0" />
             <DataGrid ItemsSource="{Binding TransContra.OtherTranDetails}" AutoGenerateColumns="False" CanUserAddRows="True" Margin="0,0,0,5">
                 <DataGrid.Columns>
@@ -116,8 +115,12 @@
                     <DataGridTextColumn Width="100" Header="Adjustment" Binding="{Binding AdjAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" />
                 </DataGrid.Columns>
             </DataGrid>
+        </StackPanel>    
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Content="Process" Command="{Binding ProcessCommand}" Margin="0,0,5,0" />
+            <TextBlock Text="Remaining:" Margin="0,0,5,0" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding RemainingAmount, StringFormat={}{0:C}}" VerticalAlignment="Center" />
         </StackPanel>
-        <TextBlock Text="Remaining:" Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" />
-        <TextBlock Text="{Binding RemainingAmount, StringFormat={}{0:C}}" Grid.Row="2" Grid.Column="1" VerticalAlignment="Stretch" />
+
     </Grid>
 </UserControl>
