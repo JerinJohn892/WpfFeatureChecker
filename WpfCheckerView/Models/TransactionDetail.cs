@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WpfCheckerView.Models
 {
-    public class TransactionDetail
+    public partial class TransactionDetail : INotifyPropertyChanged
     {
         public string BranchCode { get; set; }
         public string EntryFrom { get; set; }
@@ -20,8 +19,62 @@ namespace WpfCheckerView.Models
         public DateTime TranDate { get; set; }
         public int AcCode { get; set; }
         public double? CashAmount { get; set; }
-        public double? AdjAmount { get; set; }
-        public ObservableCollection<TransactionSubDetail> MiscTranSubDetails { get; set; }
-    }
 
+        private double? adjAmount;
+        public double? AdjAmount
+        {
+            get => adjAmount;
+            set
+            {
+                if (adjAmount != value)
+                {
+                    adjAmount = value;
+                    OnPropertyChanged(nameof(AdjAmount));
+                    OnPropertyChanged(nameof(EffectiveAdjAmount));
+                }
+            }
+        }
+
+        public ObservableCollection<TransactionSubDetail> MiscTranSubDetails { get; set; } = new();
+
+        public TransactionDetail()
+        {
+            MiscTranSubDetails.CollectionChanged += MiscTranSubDetails_CollectionChanged;
+        }
+
+        private void MiscTranSubDetails_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (TransactionSubDetail item in e.NewItems)
+                {
+                    item.PropertyChanged += SubDetail_PropertyChanged;
+                }
+            }
+            if (e.OldItems != null)
+            {
+                foreach (TransactionSubDetail item in e.OldItems)
+                {
+                    item.PropertyChanged -= SubDetail_PropertyChanged;
+                }
+            }
+            OnPropertyChanged(nameof(EffectiveAdjAmount));
+        }
+
+        private void SubDetail_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TransactionSubDetail.Amount))
+            {
+                OnPropertyChanged(nameof(EffectiveAdjAmount));
+            }
+        }
+
+        public double EffectiveAdjAmount => MiscTranSubDetails.Any()
+            ? MiscTranSubDetails.Sum(d => d.Amount ?? 0)
+            : (AdjAmount ?? 0);
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }
