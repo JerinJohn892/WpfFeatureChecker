@@ -51,6 +51,32 @@ namespace WpfCheckerView.Tests
         }
 
         [Fact]
+        public void OtherHeadsAmount_UsesSubDetailAmounts()
+        {
+            var contra = new TransactionContra();
+            var detail = new TransactionDetail();
+            detail.MiscTranSubDetails.Add(new TransactionSubDetail { Amount = 2 });
+            detail.MiscTranSubDetails.Add(new TransactionSubDetail { Amount = 3 });
+            contra.OtherTranDetails.Add(detail);
+
+            Assert.Equal(5m, contra.OtherHeadsAmount);
+        }
+
+        [Fact]
+        public void TotalSum_IncludesSubDetailAmounts()
+        {
+            var contra = new TransactionContra
+            {
+                ChequeAmt = 10
+            };
+            var detail = new TransactionDetail();
+            detail.MiscTranSubDetails.Add(new TransactionSubDetail { Amount = 5 });
+            contra.OtherTranDetails.Add(detail);
+
+            Assert.Equal(15m, contra.TotalSum());
+        }
+
+        [Fact]
 
         public void RemainingAmount_UsesTransactionContraTotal()
         {
