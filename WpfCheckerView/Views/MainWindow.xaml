@@ -10,24 +10,44 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Margin="10" Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+        <syncfusion:SfDataGrid Grid.Row="0" x:Name="dataGrid" AutoGenerateColumns="True"
+                               ItemsSource="{Binding Employees}"
+                               AllowEditing="True"
+                               AddNewRowPosition="Top">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID" />
+                <syncfusion:GridTextColumn MappingName="Name" HeaderText="Name" />
+                <syncfusion:GridComboBoxColumn
+                    MappingName="Department"
+                    HeaderText="Department"
+                    ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
+                    DisplayMemberPath="Name"
+                    SelectedValuePath="Name" />
+                <syncfusion:GridTextColumn MappingName="Salary" HeaderText="Salary" />
+                <syncfusion:GridTextColumn MappingName="IdProof" HeaderText="ID Proof" />
+                <syncfusion:GridTextColumn MappingName="PanNo" HeaderText="Pan No" />
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+
+        <Expander Grid.Row="1" ExpandDirection="Up" Header="Add Employee" Margin="10,0,10,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
             <TextBlock Text="ID:" VerticalAlignment="Center" Width="100" Grid.Row="0" Grid.Column="0" />
             <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeId, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" />
@@ -54,25 +74,7 @@
 
             <Button Content="Add" Width="80" Margin="0,5" HorizontalAlignment="Left"
                     Command="{Binding AddNewEmployeeCommand}" Grid.Row="6" Grid.Column="1" />
-        </Grid>
-
-        <syncfusion:SfDataGrid Grid.Row="1" x:Name="dataGrid" AutoGenerateColumns="True"
-                               ItemsSource="{Binding Employees}"
-                               AllowEditing="True"
-                               AddNewRowPosition="Top">
-            <syncfusion:SfDataGrid.Columns>
-                <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID" />
-                <syncfusion:GridTextColumn MappingName="Name" HeaderText="Name" />
-                <syncfusion:GridComboBoxColumn
-                    MappingName="Department"
-                    HeaderText="Department"
-                    ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
-                    DisplayMemberPath="Name"
-                    SelectedValuePath="Name" />
-                <syncfusion:GridTextColumn MappingName="Salary" HeaderText="Salary" />
-                <syncfusion:GridTextColumn MappingName="IdProof" HeaderText="ID Proof" />
-                <syncfusion:GridTextColumn MappingName="PanNo" HeaderText="Pan No" />
-            </syncfusion:SfDataGrid.Columns>
-        </syncfusion:SfDataGrid>
+            </Grid>
+        </Expander>
     </Grid>
 </Window>
