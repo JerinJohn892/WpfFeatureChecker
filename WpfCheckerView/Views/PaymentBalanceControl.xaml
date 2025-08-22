@@ -4,12 +4,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-
-             mc:Ignorable="d" MinHeight="230"
-             syncfusion:SfSkinManager.ApplyStylesOnApplication="True">
-    <syncfusion:SfSkinManager.Theme>
-        <syncfusion:Theme Name="FluentLight"/>
-    </syncfusion:SfSkinManager.Theme>
+             mc:Ignorable="d" MinHeight="230"      >
+    <!--<syncfusion:SfSkinManager.Theme>
+        <syncfusion:Theme  ThemeName="Windows11Light" />
+    </syncfusion:SfSkinManager.Theme>-->
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -38,8 +36,8 @@
                     <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <syncfusion:SfExpander x:Name="ChequeExpander" Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
-                    <syncfusion:SfExpander.Header>
+                <Expander x:Name="ChequeExpander" Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
+                    <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
@@ -49,7 +47,7 @@
                             <TextBlock Text="To Cheque" FontWeight="Bold" Grid.Column="0" />
                             <TextBlock Text="{Binding TransContra.ChequeAmt, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
                         </Grid>
-                    </syncfusion:SfExpander.Header>
+                    </Expander.Header>
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -73,10 +71,10 @@
                     <TextBox Text="{Binding TransContra.ChequeAmt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}"
                              Grid.Row="3" Grid.Column="1" Margin="0,0,0,5" />
                 </Grid>
-            </syncfusion:SfExpander>
+            </Expander>
 
-                <syncfusion:SfExpander x:Name="TransferExpander" Margin="0,0,0,5"  Grid.Row="1" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
-                    <syncfusion:SfExpander.Header>
+                <Expander x:Name="TransferExpander" Margin="0,0,0,5"  Grid.Row="1" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
+                    <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
@@ -86,7 +84,7 @@
                             <TextBlock Text="To Transfer" FontWeight="Bold" Grid.Column="0" />
                             <TextBlock Text="{Binding TransContra.TrAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
                         </Grid>
-                    </syncfusion:SfExpander.Header>
+                    </Expander.Header>
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -110,10 +108,10 @@
                     <TextBlock Text="Transfer Remarks"  Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
                     <TextBox Text="{Binding TransContra.TrRemarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Margin="0,0,0,5" />
                 </Grid>
-            </syncfusion:SfExpander>
+            </Expander>
 
-                <syncfusion:SfExpander x:Name="SdExpander" Margin="0,0,0,5"  Grid.Row="2" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
-                    <syncfusion:SfExpander.Header>
+                <Expander x:Name="SdExpander" Margin="0,0,0,5"  Grid.Row="2" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
+                    <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
@@ -123,7 +121,7 @@
                             <TextBlock Text="To SD" FontWeight="Bold" Grid.Column="0" />
                             <TextBlock Text="{Binding TransContra.SdAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
                         </Grid>
-                    </syncfusion:SfExpander.Header>
+                    </Expander.Header>
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -141,10 +139,10 @@
                     <TextBlock Text="Remarks" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,5,0" />
                     <TextBox Text="{Binding TransContra.Remarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,0,0,5" />
                 </Grid>
-            </syncfusion:SfExpander>
+            </Expander>
 
-                <syncfusion:SfExpander x:Name="OtherExpander" Margin="0,0,0,5"  Grid.Row="3" Grid.ColumnSpan="3" IsExpanded="True" Expanded="Expander_Expanded">
-                    <syncfusion:SfExpander.Header>
+                <Expander x:Name="OtherExpander" Margin="0,0,0,5"  Grid.Row="3" Grid.ColumnSpan="3" IsExpanded="True" Expanded="Expander_Expanded">
+                    <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable" />
@@ -154,7 +152,7 @@
                             <TextBlock Text="To Other Heads" FontWeight="Bold" Grid.Column="0" />
                             <TextBlock Text="{Binding TransContra.OtherHeadsAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
                         </Grid>
-                    </syncfusion:SfExpander.Header>
+                    </Expander.Header>
                 <Grid Margin="0,5,0,5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -200,8 +198,8 @@
                             </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
 
-                        <syncfusion:SfExpander x:Name="SubDetailsExpander" Grid.Row="1" Grid.ColumnSpan="3" Margin="5,0,0,0" IsExpanded="False">
-                        <syncfusion:SfExpander.Header>
+                        <Expander x:Name="SubDetailsExpander" Grid.Row="1" Grid.ColumnSpan="3" Margin="5,0,0,0" IsExpanded="False">
+                        <Expander.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable" />
@@ -211,9 +209,9 @@
                                 <TextBlock Text="Sub Details" FontWeight="Bold" Grid.Column="0" />
                                 <TextBlock Text="{Binding SelectedItem.SubDetailsTotal, ElementName=OtherHeadsDataGrid, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
                             </Grid>
-                        </syncfusion:SfExpander.Header>
-                        <syncfusion:SfExpander.Style>
-                            <Style TargetType="syncfusion:SfExpander">
+                        </Expander.Header>
+                        <Expander.Style>
+                            <Style TargetType="Expander">
                                 <Setter Property="Visibility" Value="Visible" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding SelectedItem, ElementName=OtherHeadsDataGrid}" Value="{x:Null}">
@@ -221,7 +219,7 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </syncfusion:SfExpander.Style>
+                        </Expander.Style>
                         <syncfusion:SfDataGrid ItemsSource="{Binding SelectedItem.MiscTranSubDetails, ElementName=OtherHeadsDataGrid}"
                                   AutoGenerateColumns="False" AddNewRowPosition="Top" Height="80">
                             <syncfusion:SfDataGrid.Columns>
@@ -229,9 +227,9 @@
                                 <syncfusion:GridTextColumn Width="100" HeaderText="Amount" MappingName="Amount" />
                             </syncfusion:SfDataGrid.Columns>
                         </syncfusion:SfDataGrid>
-                    </syncfusion:SfExpander>
+                    </Expander>
                 </Grid>
-            </syncfusion:SfExpander>
+            </Expander>
         </Grid>
         </Border>
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
