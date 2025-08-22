@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using WpfCheckerView.Models;
 using WpfCheckerView.Services;
+using Syncfusion.SfSkinManager;
+using System.Windows;
 
 namespace WpfCheckerView.ViewModels
 {
@@ -38,12 +40,36 @@ namespace WpfCheckerView.ViewModels
         [ObservableProperty]
         private PaymentBalanceViewModel paymentBalance = new();
 
+        [ObservableProperty]
+        private ObservableCollection<string> themes = null!;
+
+        [ObservableProperty]
+        private string selectedTheme = string.Empty;
+
         public MainViewModel(IEmployeeService employeeService, IDepartmentService departmentService)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
             PaymentBalance.TotalAmount = 100m;
             LoadData();
+
+            Themes = new ObservableCollection<string>
+            {
+                "FluentLight",
+                "FluentDark",
+                "MaterialLight",
+                "Material3Dark",
+                "Metro",
+                "Office2010Blue",
+                "Office365",
+                "Lime",
+                "Saffron",
+                "SystemTheme",
+                "Windows11Dark",
+                "Windows11Light"
+            };
+
+            SelectedTheme = "FluentLight";
         }
 
         private void LoadData()
@@ -94,6 +120,16 @@ namespace WpfCheckerView.ViewModels
             NewEmployeeSalary = string.Empty;
             NewEmployeeIdProof = string.Empty;
             NewEmployeePanNo = string.Empty;
+        }
+
+        [RelayCommand]
+        private void ApplyTheme()
+        {
+            if (Application.Current.MainWindow is not null)
+            {
+                SfSkinManager.SetTheme(Application.Current.MainWindow,
+                    new Theme() { ThemeName = SelectedTheme });
+            }
         }
     }
 }
