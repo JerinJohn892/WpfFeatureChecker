@@ -27,22 +27,21 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Expander x:Name="ChequeExpander" Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
 
                     <Expander.Header  >
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="To Cheque" FontWeight="Bold"  Grid.Column="0"/>
-                            <TextBlock Text="{Binding TransContra.ChequeAmt, StringFormat={}{0:C}}" Grid.Column="3" />
+                            <TextBlock Text="{Binding TransContra.ChequeAmt, StringFormat={}{0:C}}" Grid.Column="0" />
+                            <TextBlock Text="To Cheque" FontWeight="Bold"  Grid.Column="2"/>
                         </Grid>
                 </Expander.Header>
                 <Grid Margin="5">
@@ -75,14 +74,13 @@
                 <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="To Transfer" FontWeight="Bold"  Grid.Column="0"/>
-                            <TextBlock Text="{Binding TransContra.TrAmount, StringFormat={}{0:C}}" Grid.Column="3" />
-                        </Grid>                        
+                            <TextBlock Text="{Binding TransContra.TrAmount, StringFormat={}{0:C}}" Grid.Column="0" />
+                            <TextBlock Text="To Transfer" FontWeight="Bold"  Grid.Column="2"/>
+                        </Grid>
                 </Expander.Header>
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
@@ -114,13 +112,12 @@
                 <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="To SD" FontWeight="Bold"  Grid.Column="0"/>
-                            <TextBlock Text="{Binding TransContra.SdAmount, StringFormat={}{0:C}}" Grid.Column="3" />
+                            <TextBlock Text="{Binding TransContra.SdAmount, StringFormat={}{0:C}}" Grid.Column="0" />
+                            <TextBlock Text="To SD" FontWeight="Bold"  Grid.Column="2"/>
                         </Grid>
                 </Expander.Header>
                 <Grid Margin="5">
@@ -146,13 +143,12 @@
                 <Expander.Header >
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="To  other heads" FontWeight="Bold"  Grid.Column="0"/>
-                            <TextBlock Text="{Binding TransContra.OtherHeadsAmount, StringFormat={}{0:C}}" Grid.Column="3" />
+                            <TextBlock Text="{Binding TransContra.OtherHeadsAmount, StringFormat={}{0:C}}" Grid.Column="0" />
+                            <TextBlock Text="To  other heads" FontWeight="Bold"  Grid.Column="2"/>
                         </Grid>
                 </Expander.Header>
                 <Grid Margin="0,5,0,5">
@@ -172,7 +168,18 @@
                                 <DataGridTemplateColumn Width="60" Header="Subs">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="..." Click="SubHeadButton_Click" />
+                                            <ToggleButton Content="..." Checked="SubHeadToggle_Checked" Unchecked="SubHeadToggle_Unchecked">
+                                                <ToggleButton.Style>
+                                                    <Style TargetType="ToggleButton">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsChecked" Value="True">
+                                                                <Setter Property="Background" Value="Blue" />
+                                                                <Setter Property="Foreground" Value="White" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ToggleButton.Style>
+                                            </ToggleButton>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
