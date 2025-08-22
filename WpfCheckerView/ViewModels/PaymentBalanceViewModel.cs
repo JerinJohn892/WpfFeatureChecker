@@ -11,13 +11,15 @@ namespace WpfCheckerView.ViewModels
         [ObservableProperty]
         private decimal totalAmount;
 
-        public ObservableCollection<PaymentMethodEntry> PaymentMethods { get; } = new();
+        [ObservableProperty]
+        private TransactionContra transContra  = new();
 
-        public decimal RemainingAmount => TotalAmount - PaymentMethods.Sum(pm => pm.Amount);
+        public decimal RemainingAmount => TotalAmount - TransContra.TotalSum();
 
         public PaymentBalanceViewModel()
         {
-            PaymentMethods.CollectionChanged += PaymentMethods_CollectionChanged;
+            totalAmount=100;
+            //  PaymentMethods.CollectionChanged += PaymentMethods_CollectionChanged;
         }
 
         private void PaymentMethods_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
