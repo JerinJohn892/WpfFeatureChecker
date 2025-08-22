@@ -1,7 +1,5 @@
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using WpfCheckerView.Models;
 
 namespace WpfCheckerView.Views
 {
@@ -24,22 +22,5 @@ namespace WpfCheckerView.Views
                 OtherExpander.IsExpanded = false;
         }
 
-        private void SubHeadToggle_Checked(object sender, RoutedEventArgs e)
-        {
-            if (sender is ToggleButton toggle && toggle.DataContext is TransactionDetail detail)
-            {
-                OtherHeadsDataGrid.SelectedItem = detail;
-                SubDetailsExpander.IsExpanded = true;
-            }
-        }
-
-        private void SubHeadToggle_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (sender is ToggleButton toggle && toggle.DataContext is TransactionDetail detail)
-            {
-                detail.MiscTranSubDetails.Clear();
-            }
-            SubDetailsExpander.IsExpanded = false;
-        }
     }
 }
