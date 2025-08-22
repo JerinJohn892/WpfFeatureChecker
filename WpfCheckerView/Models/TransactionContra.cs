@@ -25,7 +25,7 @@ namespace WpfCheckerView.Models
         public string? Remarks { get; set; }
         public ObservableCollection<TransactionDetail> OtherTranDetails { get; set; }
 
-        internal decimal TotalSum()
+        public decimal TotalSum()
         {
             return (decimal)((SuspenseAmt ?? 0) +
                              (ChequeAmt ?? 0) +

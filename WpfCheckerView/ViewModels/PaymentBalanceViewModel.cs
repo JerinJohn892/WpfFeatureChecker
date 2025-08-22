@@ -18,36 +18,36 @@ namespace WpfCheckerView.ViewModels
 
         public PaymentBalanceViewModel()
         {
-            totalAmount=100;
+            TotalAmount=100;
             //  PaymentMethods.CollectionChanged += PaymentMethods_CollectionChanged;
         }
 
-        private void PaymentMethods_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (PaymentMethodEntry item in e.NewItems)
-                {
-                    item.PropertyChanged += PaymentMethod_PropertyChanged;
-                }
-            }
-            if (e.OldItems != null)
-            {
-                foreach (PaymentMethodEntry item in e.OldItems)
-                {
-                    item.PropertyChanged -= PaymentMethod_PropertyChanged;
-                }
-            }
-            OnPropertyChanged(nameof(RemainingAmount));
-        }
+        //private void PaymentMethods_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        //{
+        //    if (e.NewItems != null)
+        //    {
+        //        foreach (PaymentMethodEntry item in e.NewItems)
+        //        {
+        //            item.PropertyChanged += PaymentMethod_PropertyChanged;
+        //        }
+        //    }
+        //    if (e.OldItems != null)
+        //    {
+        //        foreach (PaymentMethodEntry item in e.OldItems)
+        //        {
+        //            item.PropertyChanged -= PaymentMethod_PropertyChanged;
+        //        }
+        //    }
+        //    OnPropertyChanged(nameof(RemainingAmount));
+        //}
 
-        private void PaymentMethod_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(PaymentMethodEntry.Amount))
-            {
-                OnPropertyChanged(nameof(RemainingAmount));
-            }
-        }
+        //private void PaymentMethod_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == nameof(PaymentMethodEntry.Amount))
+        //    {
+        //        OnPropertyChanged(nameof(RemainingAmount));
+        //    }
+        //}
 
         partial void OnTotalAmountChanged(decimal value)
         {
