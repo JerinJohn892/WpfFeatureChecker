@@ -8,7 +8,7 @@ namespace WpfCheckerView.Tests;
 
 public class PatternTextBoxTests
 {
-    [Fact]
+    [StaFact]
     public void Backspace_Should_Remove_Character_Before_Literal()
     {
         var tb = new TestPatternTextBox { Pattern = @"^\d{3}-\d{3}$" };
