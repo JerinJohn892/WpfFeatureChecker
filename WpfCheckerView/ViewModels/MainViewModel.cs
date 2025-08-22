@@ -35,10 +35,14 @@ namespace WpfCheckerView.ViewModels
         [ObservableProperty]
         private string newEmployeePanNo = string.Empty;
 
+        [ObservableProperty]
+        private PaymentBalanceViewModel paymentBalance = new();
+
         public MainViewModel(IEmployeeService employeeService, IDepartmentService departmentService)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
+            PaymentBalance.TotalAmount = 0m;
             LoadData();
         }
 

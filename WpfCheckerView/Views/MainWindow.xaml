@@ -56,23 +56,34 @@
                     Command="{Binding AddNewEmployeeCommand}" Grid.Row="6" Grid.Column="1" />
         </Grid>
 
-        <syncfusion:SfDataGrid Grid.Row="1" x:Name="dataGrid" AutoGenerateColumns="True"
-                               ItemsSource="{Binding Employees}"
-                               AllowEditing="True"
-                               AddNewRowPosition="Top">
-            <syncfusion:SfDataGrid.Columns>
-                <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID" />
-                <syncfusion:GridTextColumn MappingName="Name" HeaderText="Name" />
-                <syncfusion:GridComboBoxColumn
-                    MappingName="Department"
-                    HeaderText="Department"
-                    ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
-                    DisplayMemberPath="Name"
-                    SelectedValuePath="Name" />
-                <syncfusion:GridTextColumn MappingName="Salary" HeaderText="Salary" />
-                <syncfusion:GridTextColumn MappingName="IdProof" HeaderText="ID Proof" />
-                <syncfusion:GridTextColumn MappingName="PanNo" HeaderText="Pan No" />
-            </syncfusion:SfDataGrid.Columns>
-        </syncfusion:SfDataGrid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <syncfusion:SfDataGrid Grid.Row="0" x:Name="dataGrid" AutoGenerateColumns="True"
+                                   ItemsSource="{Binding Employees}"
+                                   AllowEditing="True"
+                                   AddNewRowPosition="Top">
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID" />
+                    <syncfusion:GridTextColumn MappingName="Name" HeaderText="Name" />
+                    <syncfusion:GridComboBoxColumn
+                        MappingName="Department"
+                        HeaderText="Department"
+                        ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
+                        DisplayMemberPath="Name"
+                        SelectedValuePath="Name" />
+                    <syncfusion:GridTextColumn MappingName="Salary" HeaderText="Salary" />
+                    <syncfusion:GridTextColumn MappingName="IdProof" HeaderText="ID Proof" />
+                    <syncfusion:GridTextColumn MappingName="PanNo" HeaderText="Pan No" />
+                </syncfusion:SfDataGrid.Columns>
+            </syncfusion:SfDataGrid>
+
+            <Expander Grid.Row="1" Header="Payment Methods">
+                <local:PaymentBalanceControl DataContext="{Binding PaymentBalance}" />
+            </Expander>
+        </Grid>
     </Grid>
 </Window>
