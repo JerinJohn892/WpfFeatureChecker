@@ -156,78 +156,28 @@
                 <Grid Margin="0,5,0,5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <syncfusion:SfDataGrid x:Name="OtherHeadsDataGrid"
                               ItemsSource="{Binding TransContra.OtherTranDetails}"
-                              AutoGenerateColumns="False" AddNewRowPosition="Top"
-                              SelectedItem="{Binding SelectedOtherTranDetail}">
+                              AutoGenerateColumns="False" AddNewRowPosition="Top">
                         <syncfusion:SfDataGrid.Columns>
 
                             <syncfusion:GridTextColumn Width="250" HeaderText="A/C Head" MappingName="AccountType" />
                             <syncfusion:GridTextColumn Width="100" HeaderText="Adjustment" MappingName="AdjAmount" />
-                                <syncfusion:GridTemplateColumn Width="60" HeaderText="Subs">
-                                    <syncfusion:GridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ToggleButton Content="..." Checked="SubHeadToggle_Checked" Unchecked="SubHeadToggle_Unchecked">
-                                                <ToggleButton.Style>
-                                                    <Style TargetType="ToggleButton">
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
-                                                            <Trigger Property="IsChecked" Value="True">
-                                                                <Setter Property="Background" Value="Blue" />
-                                                                <Setter Property="Foreground" Value="White" />
-                                                            </Trigger>
-                                                            <DataTrigger Binding="{Binding AccountType}" Value="">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AccountType}" Value="{x:Null}">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AdjAmount}" Value="{x:Null}">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ToggleButton.Style>
-                                            </ToggleButton>
-                                        </DataTemplate>
-                                    </syncfusion:GridTemplateColumn.CellTemplate>
-                                </syncfusion:GridTemplateColumn>
-                            </syncfusion:SfDataGrid.Columns>
+                        </syncfusion:SfDataGrid.Columns>
+                        <syncfusion:SfDataGrid.DetailsViewDefinition>
+                            <syncfusion:DetailViewDefinition>
+                                <syncfusion:SfDataGrid ItemsSource="{Binding MiscTranSubDetails}"
+                                                      AutoGenerateColumns="False" AddNewRowPosition="Top" Height="80">
+                                    <syncfusion:SfDataGrid.Columns>
+                                        <syncfusion:GridTextColumn Width="250" HeaderText="Sub Head" MappingName="SubCode" />
+                                        <syncfusion:GridTextColumn Width="100" HeaderText="Amount" MappingName="Amount" />
+                                    </syncfusion:SfDataGrid.Columns>
+                                </syncfusion:SfDataGrid>
+                            </syncfusion:DetailViewDefinition>
+                        </syncfusion:SfDataGrid.DetailsViewDefinition>
                     </syncfusion:SfDataGrid>
-
-                        <Expander x:Name="SubDetailsExpander" Grid.Row="1" Grid.ColumnSpan="3" Margin="5,0,0,0" IsExpanded="False">
-                        <Expander.Header>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable" />
-                                    <ColumnDefinition Width="10" />
-                                    <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Sub Details" FontWeight="Bold" Grid.Column="0" />
-                                <TextBlock Text="{Binding SelectedItem.SubDetailsTotal, ElementName=OtherHeadsDataGrid, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
-                            </Grid>
-                        </Expander.Header>
-                        <Expander.Style>
-                            <Style TargetType="Expander">
-                                <Setter Property="Visibility" Value="Visible" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SelectedItem, ElementName=OtherHeadsDataGrid}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Expander.Style>
-                        <syncfusion:SfDataGrid ItemsSource="{Binding SelectedItem.MiscTranSubDetails, ElementName=OtherHeadsDataGrid}"
-                                  AutoGenerateColumns="False" AddNewRowPosition="Top" Height="80">
-                            <syncfusion:SfDataGrid.Columns>
-                                    <syncfusion:GridTextColumn Width="250" HeaderText="Sub Head" MappingName="SubCode" />
-                                <syncfusion:GridTextColumn Width="100" HeaderText="Amount" MappingName="Amount" />
-                            </syncfusion:SfDataGrid.Columns>
-                        </syncfusion:SfDataGrid>
-                    </Expander>
                 </Grid>
             </Expander>
         </Grid>
