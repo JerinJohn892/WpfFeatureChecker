@@ -47,7 +47,7 @@
             <controls:DoubleTextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeSalary, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" />
 
             <TextBlock Text="ID Proof:" VerticalAlignment="Center" Width="100" Grid.Row="4" Grid.Column="0" />
-            <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeIdProof, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" />
+            <controls:PatternTextBox Pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$" Width="120" Margin="5,0" Text="{Binding NewEmployeeIdProof, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" />
 
             <TextBlock Text="Pan No.:" VerticalAlignment="Center" Width="100" Grid.Row="5" Grid.Column="0" />
             <controls:PatternTextBox Pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$" Width="120" Margin="5,0" Text="{Binding NewEmployeePanNo, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" />
