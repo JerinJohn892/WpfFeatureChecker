@@ -30,9 +30,8 @@ namespace WpfCheckerView.Views
                 var row = FindAncestor<DataGridRow>(button);
                 if (row != null)
                 {
-                    row.DetailsVisibility = row.DetailsVisibility == Visibility.Visible
-                        ? Visibility.Collapsed
-                        : Visibility.Visible;
+                    row.IsSelected = true;
+                    SubDetailsExpander.IsExpanded = !SubDetailsExpander.IsExpanded;
                 }
             }
         }

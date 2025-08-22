@@ -119,29 +119,49 @@
                         <TextBlock Text="{Binding TransContra.OtherHeadsAmount, StringFormat={}{0:C}}" Margin="10,0,0,0" />
                     </StackPanel>
                 </Expander.Header>
-                <DataGrid ItemsSource="{Binding TransContra.OtherTranDetails}"
-                          AutoGenerateColumns="False" CanUserAddRows="True" Margin="0,5,0,5"
-                          RowDetailsVisibilityMode="Collapsed">
-                    <DataGrid.RowDetailsTemplate>
-                        <DataGrid ItemsSource="{Binding MiscTranSubDetails}" AutoGenerateColumns="False" CanUserAddRows="True">
+                <Grid Margin="0,5,0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid x:Name="OtherHeadsDataGrid"
+                              ItemsSource="{Binding TransContra.OtherTranDetails}"
+                              AutoGenerateColumns="False" CanUserAddRows="True"
+                              SelectedItem="{Binding SelectedOtherTranDetail}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="60" Header="Subs">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="..." Click="SubHeadButton_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Width="200" Header="A/C Head" Binding="{Binding AccountType, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Width="100" Header="Adjustment" Binding="{Binding AdjAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Expander x:Name="SubDetailsExpander" Grid.Column="1" Header="Sub Details" Margin="5,0,0,0" IsExpanded="True">
+                        <Expander.Style>
+                            <Style TargetType="Expander">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedItem, ElementName=OtherHeadsDataGrid}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Expander.Style>
+                        <DataGrid ItemsSource="{Binding SelectedItem.MiscTranSubDetails, ElementName=OtherHeadsDataGrid}"
+                                  AutoGenerateColumns="False" CanUserAddRows="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="150" Header="Sub Head" Binding="{Binding SubCode, UpdateSourceTrigger=PropertyChanged}" />
                                 <DataGridTextColumn Width="100" Header="Amount" Binding="{Binding Amount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                    </DataGrid.RowDetailsTemplate>
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="60" Header="Subs">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="..." Click="SubHeadButton_Click" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Width="200" Header="A/C Head" Binding="{Binding AccountType, UpdateSourceTrigger=PropertyChanged}" />
-                        <DataGridTextColumn Width="100" Header="Adjustment" Binding="{Binding AdjAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                    </Expander>
+                </Grid>
             </Expander>
         </StackPanel>
 
