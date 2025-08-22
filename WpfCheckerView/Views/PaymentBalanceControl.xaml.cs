@@ -1,6 +1,8 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using WpfCheckerView.Models;
 
 namespace WpfCheckerView.Views
 {
@@ -23,17 +25,30 @@ namespace WpfCheckerView.Views
                 OtherExpander.IsExpanded = false;
         }
 
-        private void SubHeadButton_Click(object sender, RoutedEventArgs e)
+        private void SubHeadToggle_Checked(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button)
+            if (sender is ToggleButton toggle)
             {
-                var row = FindAncestor<DataGridRow>(button);
+                var row = FindAncestor<DataGridRow>(toggle);
                 if (row != null)
                 {
                     row.IsSelected = true;
-                    SubDetailsExpander.IsExpanded = !SubDetailsExpander.IsExpanded;
+                    SubDetailsExpander.IsExpanded = true;
                 }
             }
+        }
+
+        private void SubHeadToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton toggle)
+            {
+                var row = FindAncestor<DataGridRow>(toggle);
+                if (row?.DataContext is TransactionDetail detail)
+                {
+                    detail.MiscTranSubDetails.Clear();
+                }
+            }
+            SubDetailsExpander.IsExpanded = false;
         }
 
         private static T? FindAncestor<T>(DependencyObject current) where T : DependencyObject
