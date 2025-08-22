@@ -4,7 +4,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-             mc:Ignorable="d" MinHeight="230" Background="AliceBlue">
+
+             mc:Ignorable="d" MinHeight="230"
+             syncfusion:SfSkinManager.ApplyStylesOnApplication="True">
+    <syncfusion:SfSkinManager.Theme>
+        <syncfusion:Theme Name="FluentLight"/>
+    </syncfusion:SfSkinManager.Theme>
+
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
