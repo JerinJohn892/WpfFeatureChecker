@@ -18,16 +18,20 @@
         <TextBlock Text="Total Amount:" Grid.Row="0" Grid.Column="0" Margin="0,0,5,5" VerticalAlignment="Center" />
         <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:C}}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,5" VerticalAlignment="Center" />
 
-        <TabControl  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
-            <TabItem Header="To Cheque">
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Expander Margin="0,0,0,5">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="To Cheque" FontWeight="Bold" />
+                        <TextBlock Text="{Binding TransContra.ChequeAmt, StringFormat={}{0:C}}" Margin="10,0,0,0" />
+                    </StackPanel>
+                </Expander.Header>
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -38,15 +42,22 @@
                     <TextBlock Text="Bank Name:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
                     <TextBox Text="{Binding TransContra.BankName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,5" />
                     <TextBlock Text="Cheque Date:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                    <DatePicker Text="{Binding TransContra.ChequeDate, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" 
-                             Grid.Row="2" Grid.Column="1" Margin="0,0,5,5" VerticalAlignment="Center" 
+                    <DatePicker Text="{Binding TransContra.ChequeDate, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}"
+                             Grid.Row="2" Grid.Column="1" Margin="0,0,5,5" VerticalAlignment="Center"
                              HorizontalAlignment="Left" Width="120" />
                     <TextBlock Text="Cheque Amount:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                    <TextBox Text="{Binding TransContra.ChequeAmt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" 
+                    <TextBox Text="{Binding TransContra.ChequeAmt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}"
                              Grid.Row="3" Grid.Column="1" Margin="0,0,0,5" />
                 </Grid>
-            </TabItem>
-            <TabItem Header="To Transfer">
+            </Expander>
+
+            <Expander Margin="0,0,0,5">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="To Transfer" FontWeight="Bold" />
+                        <TextBlock Text="{Binding TransContra.TrAmount, StringFormat={}{0:C}}" Margin="10,0,0,0" />
+                    </StackPanel>
+                </Expander.Header>
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -54,7 +65,6 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -66,24 +76,25 @@
                     <TextBox Text="{Binding TransContra.TransferBy, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,5" />
                     <TextBlock Text="Transfer Bank Code:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
                     <TextBox Text="{Binding TransContra.TrBankCode, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,0,5,5" />
-                    <TextBlock Text="Transfer Amount" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,5,0" /> 
+                    <TextBlock Text="Transfer Amount" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,5,0" />
                     <TextBox Text="{Binding TransContra.TrAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" Grid.Row="3" Grid.Column="1" Margin="0,0,0,5" />
                     <TextBlock Text="Transfer Remarks"  Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
                     <TextBox Text="{Binding TransContra.TrRemarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Margin="0,0,0,5" />
-
-
-
                 </Grid>
-            </TabItem>
-            <TabItem Header="To SD">
+            </Expander>
+
+            <Expander Margin="0,0,0,5">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="To SD" FontWeight="Bold" />
+                        <TextBlock Text="{Binding TransContra.SdAmount, StringFormat={}{0:C}}" Margin="10,0,0,0" />
+                    </StackPanel>
+                </Expander.Header>
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -95,22 +106,21 @@
                     <TextBox Text="{Binding TransContra.SdAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,5" />
                     <TextBlock Text="Remarks" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,5,0" />
                     <TextBox Text="{Binding TransContra.Remarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,0,0,5" />
-
                 </Grid>
-            </TabItem>
-            <TabItem Header="To other heads">
-                <DataGrid ItemsSource="{Binding TransContra.PaymentDetails}" AutoGenerateColumns="False" CanUserAddRows="True" Margin="0,0,0,5">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width="200" Header="A/C Head" Binding="{Binding AccountType, UpdateSourceTrigger=PropertyChanged}" />
-                        <DataGridTextColumn Width="100" Header="Adjustment" Binding="{Binding AdjAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-        </TabControl>
+            </Expander>
+            <TextBlock Text="To other heads" FontWeight="Bold" Margin="0,5,0,0" />
+            <DataGrid ItemsSource="{Binding TransContra.OtherTranDetails}" AutoGenerateColumns="False" CanUserAddRows="True" Margin="0,0,0,5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="200" Header="A/C Head" Binding="{Binding AccountType, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridTextColumn Width="100" Header="Adjustment" Binding="{Binding AdjAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>    
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Button Content="Process" Command="{Binding ProcessCommand}" Margin="0,0,5,0" />
             <TextBlock Text="Remaining:" Margin="0,0,5,0" VerticalAlignment="Center" />
             <TextBlock Text="{Binding RemainingAmount, StringFormat={}{0:C}}" VerticalAlignment="Center" />
         </StackPanel>
+
     </Grid>
 </UserControl>

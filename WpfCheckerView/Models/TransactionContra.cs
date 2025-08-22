@@ -23,14 +23,15 @@ namespace WpfCheckerView.Models
         public string? SdAccountId { get; set; }
         public double? SdAmount { get; set; }
         public string? Remarks { get; set; }
-        public ObservableCollection<TransactionDetail> OtherTranDetails { get; set; }
+        public ObservableCollection<TransactionDetail> OtherTranDetails { get; set; } = new();
 
         public decimal TotalSum()
         {
+            var otherTotal = OtherTranDetails.Sum(d => (decimal)(d.AdjAmount ?? 0));
             return (decimal)((SuspenseAmt ?? 0) +
                              (ChequeAmt ?? 0) +
                              (TrAmount ?? 0) +
-                             (SdAmount ?? 0));
+                             (SdAmount ?? 0)) + otherTotal;
         }
     }
 }

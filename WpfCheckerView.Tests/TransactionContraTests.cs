@@ -28,6 +28,19 @@ namespace WpfCheckerView.Tests
         }
 
         [Fact]
+        public void TotalSum_IncludesOtherTransactionDetails()
+        {
+            var contra = new TransactionContra
+            {
+                ChequeAmt = 10
+            };
+            contra.OtherTranDetails.Add(new TransactionDetail { AdjAmount = 5 });
+            contra.OtherTranDetails.Add(new TransactionDetail { AdjAmount = 15 });
+
+            Assert.Equal(30m, contra.TotalSum());
+        }
+
+        [Fact]
         public void RemainingAmount_UsesTransactionContraTotal()
         {
             var vm = new PaymentBalanceViewModel
