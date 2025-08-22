@@ -1,29 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WpfCheckerView.Models
 {
-    public class TransactionContra
+    public partial class TransactionContra : ObservableObject
     {
         public double? TotalAdjustment { get; set; }
         public long? AcCode { get; set; }
         public string EmployeeId { get; set; }
-        public double? SuspenseAmt { get; set; }
+
+        [ObservableProperty]
+        private double? suspenseAmt;
+
         public long? BankFasCode { get; set; }
         public string? ChequeNo { get; set; }
-        public double? ChequeAmt { get; set; }
+
+        [ObservableProperty]
+        private double? chequeAmt;
+
         public string? TransferBy { get; set; }
         public int? TrBankCode { get; set; }
-        public double? TrAmount { get; set; }
+
+        [ObservableProperty]
+        private double? trAmount;
+
         public string? TrRemarks { get; set; }
         public string? SdAccountId { get; set; }
-        public double? SdAmount { get; set; }
+
+        [ObservableProperty]
+        private double? sdAmount;
+
         public string? Remarks { get; set; }
-        public ObservableCollection<TransactionDetail> OtherTranDetails { get; set; } = new();
+
+        public ObservableCollection<TransactionDetail> OtherTranDetails { get; } = new();
+
+        public TransactionContra()
+        {
+            OtherTranDetails.CollectionChanged += OtherTranDetails_CollectionChanged;
+        }
+
+        private void OtherTranDetails_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (TransactionDetail item in e.NewItems)
+                {
+                    item.PropertyChanged += Detail_PropertyChanged;
+                }
+            }
+            if (e.OldItems != null)
+            {
+                foreach (TransactionDetail item in e.OldItems)
+                {
+                    item.PropertyChanged -= Detail_PropertyChanged;
+                }
+            }
+            OnPropertyChanged(nameof(OtherHeadsAmount));
+        }
+
+        private void Detail_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TransactionDetail.EffectiveAdjAmount))
+            {
+                OnPropertyChanged(nameof(OtherHeadsAmount));
+            }
+        }
 
         public decimal OtherHeadsAmount => OtherTranDetails.Sum(d => (decimal)d.EffectiveAdjAmount);
 
@@ -36,3 +80,4 @@ namespace WpfCheckerView.Models
         }
     }
 }
+

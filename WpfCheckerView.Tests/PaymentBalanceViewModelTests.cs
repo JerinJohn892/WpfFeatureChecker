@@ -25,6 +25,24 @@ namespace WpfCheckerView.Tests
 
             Assert.True(raised);
         }
+
+        [Fact]
+        public void RemainingAmount_NotifiesOnTransactionChange()
+        {
+            var vm = new PaymentBalanceViewModel { TotalAmount = 100m };
+            bool raised = false;
+            vm.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(PaymentBalanceViewModel.RemainingAmount))
+                {
+                    raised = true;
+                }
+            };
+
+            vm.TransContra.ChequeAmt = 40;
+
+            Assert.True(raised);
+        }
         //[Fact]
         //public void RemainingAmountUpdatesWithPayments()
         //{
