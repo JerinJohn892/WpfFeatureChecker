@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" MinHeight="200" Background="AliceBlue">
+             mc:Ignorable="d" MinHeight="230" Background="AliceBlue">
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -27,7 +27,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                    <ColumnDefinition Width="150" SharedSizeGroup="ExpanderHederLable" />
                     <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
@@ -35,7 +35,7 @@
                     <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
                                 <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
                             </Grid.ColumnDefinitions>
@@ -51,7 +51,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LableHeader" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Cheque No:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
@@ -72,7 +72,7 @@
                     <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
                                 <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
                             </Grid.ColumnDefinitions>
@@ -89,7 +89,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto"  SharedSizeGroup="LableHeader" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="UTR No:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
@@ -109,7 +109,7 @@
                     <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
                                 <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
                             </Grid.ColumnDefinitions>
@@ -124,7 +124,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto"  SharedSizeGroup="LableHeader"/>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="SD No:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
@@ -140,11 +140,11 @@
                     <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable" />
                                 <ColumnDefinition Width="10" />
                                 <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="To  other heads" FontWeight="Bold" Grid.Column="0" />
+                            <TextBlock Text="To Other Heads" FontWeight="Bold" Grid.Column="0" />
                             <TextBlock Text="{Binding TransContra.OtherHeadsAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
                         </Grid>
                     </Expander.Header>
@@ -160,7 +160,7 @@
                               SelectedItem="{Binding SelectedOtherTranDetail}">
                         <DataGrid.Columns>
 
-                            <DataGridTextColumn Width="200" Header="A/C Head" Binding="{Binding AccountType, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Width="250" Header="A/C Head" Binding="{Binding AccountType, UpdateSourceTrigger=PropertyChanged}" />
                             <DataGridTextColumn Width="100" Header="Adjustment" Binding="{Binding AdjAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" />
                                 <DataGridTemplateColumn Width="60" Header="Subs">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -197,7 +197,7 @@
                         <Expander.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable" />
                                     <ColumnDefinition Width="10" />
                                     <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
                                 </Grid.ColumnDefinitions>
@@ -218,7 +218,7 @@
                         <DataGrid ItemsSource="{Binding SelectedItem.MiscTranSubDetails, ElementName=OtherHeadsDataGrid}"
                                   AutoGenerateColumns="False" CanUserAddRows="True" Height="80">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Width="150" Header="Sub Head" Binding="{Binding SubCode, UpdateSourceTrigger=PropertyChanged}" />
+                                    <DataGridTextColumn Width="250" Header="Sub Head" Binding="{Binding SubCode, UpdateSourceTrigger=PropertyChanged}" />
                                 <DataGridTextColumn Width="100" Header="Amount" Binding="{Binding Amount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" />
                             </DataGrid.Columns>
                         </DataGrid>
