@@ -13,7 +13,19 @@ namespace WpfCheckerView.Models
         public int TranType { get; set; }
         public string MasterId { get; set; }
         public int RowNo { get; set; }
-        public string? AccountType { get; set; }
+        private string? accountType;
+        public string? AccountType
+        {
+            get => accountType;
+            set
+            {
+                if (accountType != value)
+                {
+                    accountType = value;
+                    OnPropertyChanged(nameof(AccountType));
+                }
+            }
+        }
         public string? AccountId { get; set; }
         public string? MemberId { get; set; }
         public DateTime TranDate { get; set; }
@@ -59,6 +71,7 @@ namespace WpfCheckerView.Models
                 }
             }
             OnPropertyChanged(nameof(EffectiveAdjAmount));
+            OnPropertyChanged(nameof(SubDetailsTotal));
         }
 
         private void SubDetail_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -66,12 +79,15 @@ namespace WpfCheckerView.Models
             if (e.PropertyName == nameof(TransactionSubDetail.Amount))
             {
                 OnPropertyChanged(nameof(EffectiveAdjAmount));
+                OnPropertyChanged(nameof(SubDetailsTotal));
             }
         }
 
         public double EffectiveAdjAmount => MiscTranSubDetails.Any()
             ? MiscTranSubDetails.Sum(d => d.Amount ?? 0)
             : (AdjAmount ?? 0);
+
+        public double SubDetailsTotal => MiscTranSubDetails.Sum(d => d.Amount ?? 0);
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged(string propertyName) =>
