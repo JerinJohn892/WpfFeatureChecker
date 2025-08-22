@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using WpfCheckerView.Models;
 
 namespace WpfCheckerView.ViewModels
@@ -16,9 +17,14 @@ namespace WpfCheckerView.ViewModels
 
         public decimal RemainingAmount => TotalAmount - TransContra.TotalSum();
 
+        [RelayCommand]
+        private void Process()
+        {
+            OnPropertyChanged(nameof(RemainingAmount));
+        }
+
         public PaymentBalanceViewModel()
         {
-            TotalAmount=100;
             //  PaymentMethods.CollectionChanged += PaymentMethods_CollectionChanged;
         }
 

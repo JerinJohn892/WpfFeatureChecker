@@ -20,6 +20,7 @@
 
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Expander x:Name="ChequeExpander" Margin="0,0,0,5" Expanded="Expander_Expanded">
+
                 <Expander.Header>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="To Cheque" FontWeight="Bold" />
@@ -52,6 +53,7 @@
             </Expander>
 
             <Expander x:Name="TransferExpander" Margin="0,0,0,5" Expanded="Expander_Expanded">
+
                 <Expander.Header>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="To Transfer" FontWeight="Bold" />
@@ -84,6 +86,7 @@
             </Expander>
 
             <Expander x:Name="SdExpander" Margin="0,0,0,5" Expanded="Expander_Expanded">
+
                 <Expander.Header>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="To SD" FontWeight="Bold" />
@@ -124,7 +127,11 @@
                 </DataGrid>
             </Expander>
         </StackPanel>
-        <TextBlock Text="Remaining:" Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" />
-        <TextBlock Text="{Binding RemainingAmount, StringFormat={}{0:C}}" Grid.Row="2" Grid.Column="1" VerticalAlignment="Stretch" />
+
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Content="Process" Command="{Binding ProcessCommand}" Margin="0,0,5,0" />
+            <TextBlock Text="Remaining:" Margin="0,0,5,0" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding RemainingAmount, StringFormat={}{0:C}}" VerticalAlignment="Center" />
+        </StackPanel>
     </Grid>
 </UserControl>

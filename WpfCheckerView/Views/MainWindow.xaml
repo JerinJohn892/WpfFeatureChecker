@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:WpfCheckerView.Views"
         xmlns:controls="clr-namespace:CustomControls;assembly=CustomControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MinHeight="550" Width="950">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

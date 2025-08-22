@@ -51,6 +51,7 @@ namespace WpfCheckerView.Tests
         }
 
         [Fact]
+
         public void RemainingAmount_UsesTransactionContraTotal()
         {
             var vm = new PaymentBalanceViewModel
