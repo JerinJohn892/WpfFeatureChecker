@@ -25,7 +25,6 @@ namespace WpfCheckerView.ViewModels
 
         public PaymentBalanceViewModel()
         {
-            TotalAmount=100;
             //  PaymentMethods.CollectionChanged += PaymentMethods_CollectionChanged;
         }
 

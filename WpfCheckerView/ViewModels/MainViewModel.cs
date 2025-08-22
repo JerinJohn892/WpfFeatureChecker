@@ -42,7 +42,7 @@ namespace WpfCheckerView.ViewModels
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
-            PaymentBalance.TotalAmount = 0m;
+            PaymentBalance.TotalAmount = 100m;
             LoadData();
         }
 
