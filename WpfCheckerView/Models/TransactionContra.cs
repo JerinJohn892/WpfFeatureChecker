@@ -4,80 +4,77 @@ using System.ComponentModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace WpfCheckerView.Models
+namespace WpfCheckerView.Models;
+public partial class Trn_ContraViewModel : ObservableValidator
 {
-    public partial class TransactionContra : ObservableObject
+    public Trn_ContraViewModel() : base()
     {
-        public double? TotalAdjustment { get; set; }
-        public long? AcCode { get; set; }
-        public string EmployeeId { get; set; }
+        OtherTranDetails.CollectionChanged += OtherTranDetails_CollectionChanged;
+    }
 
-        [ObservableProperty]
-        private double? suspenseAmt;
+    [ObservableProperty]
+    public long? acCode;
+    [ObservableProperty]
+    public string memberId;
+    [ObservableProperty]
+    public double? suspenseAmt;
+    [ObservableProperty]
+    public long? bankFasCode;
+    [ObservableProperty]
+    public string? chequeNo;
+    [ObservableProperty]
+    public double? chequeAmt;
+    [ObservableProperty]
+    public string? transferBy;
+    [ObservableProperty]
+    public int? trBankCode;
+    [ObservableProperty]
+    public double? trAmount;
+    [ObservableProperty]
+    public string? trRemarks;
+    [ObservableProperty]
+    public string? sdAccountId;
+    [ObservableProperty]
+    public double? sdAmount;
+    [ObservableProperty]
+    public string? remarks;
 
-        public long? BankFasCode { get; set; }
-        public string? ChequeNo { get; set; }
-
-        [ObservableProperty]
-        private double? chequeAmt;
-
-        public string? TransferBy { get; set; }
-        public int? TrBankCode { get; set; }
-
-        [ObservableProperty]
-        private double? trAmount;
-
-        public string? TrRemarks { get; set; }
-        public string? SdAccountId { get; set; }
-
-        [ObservableProperty]
-        private double? sdAmount;
-
-        public string? Remarks { get; set; }
-
-        public ObservableCollection<TransactionDetail> OtherTranDetails { get; } = new();
-
-        public TransactionContra()
+    public ObservableCollection<TranDetailViewModel> OtherTranDetails { get; } = new();
+    private void OtherTranDetails_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.NewItems != null)
         {
-            OtherTranDetails.CollectionChanged += OtherTranDetails_CollectionChanged;
+            foreach (TranDetailViewModel item in e.NewItems)
+            {
+                item.PropertyChanged += Detail_PropertyChanged;
+            }
         }
-
-        private void OtherTranDetails_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        if (e.OldItems != null)
         {
-            if (e.NewItems != null)
+            foreach (TranDetailViewModel item in e.OldItems)
             {
-                foreach (TransactionDetail item in e.NewItems)
-                {
-                    item.PropertyChanged += Detail_PropertyChanged;
-                }
+                item.PropertyChanged -= Detail_PropertyChanged;
             }
-            if (e.OldItems != null)
-            {
-                foreach (TransactionDetail item in e.OldItems)
-                {
-                    item.PropertyChanged -= Detail_PropertyChanged;
-                }
-            }
+        }
+        OnPropertyChanged(nameof(OtherHeadsAmount));
+    }
+
+    private void Detail_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(TranDetailViewModel.EffectiveAdjAmount))
+        {
             OnPropertyChanged(nameof(OtherHeadsAmount));
         }
+    }
 
-        private void Detail_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(TransactionDetail.EffectiveAdjAmount))
-            {
-                OnPropertyChanged(nameof(OtherHeadsAmount));
-            }
-        }
+    public decimal OtherHeadsAmount => OtherTranDetails.Sum(d => (decimal)d.EffectiveAdjAmount);
 
-        public decimal OtherHeadsAmount => OtherTranDetails.Sum(d => (decimal)d.EffectiveAdjAmount);
-
-        public decimal TotalSum()
-        {
-            return (decimal)((SuspenseAmt ?? 0) +
-                             (ChequeAmt ?? 0) +
-                             (TrAmount ?? 0) +
-                             (SdAmount ?? 0)) + OtherHeadsAmount;
-        }
+    public decimal TotalSum()
+    {
+        return (decimal)((SuspenseAmt ?? 0) +
+                         (ChequeAmt ?? 0) +
+                         (TrAmount ?? 0) +
+                         (SdAmount ?? 0)) + OtherHeadsAmount;
     }
 }
 

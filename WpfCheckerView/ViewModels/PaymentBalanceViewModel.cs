@@ -7,13 +7,22 @@ namespace WpfCheckerView.ViewModels
 {
     public partial class PaymentBalanceViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private decimal totalAmount;
+
+        public PaymentBalanceViewModel()
+        {
+            TransContra.PropertyChanged += TransContra_PropertyChanged;
+        }
+
+        //[ObservableProperty]
+        //private decimal totalAmount;
 
         [ObservableProperty]
-        private TransactionContra transContra  = new();
+        private decimal totalAdj;
 
-        public decimal RemainingAmount => TotalAmount - TransContra.TotalSum();
+        [ObservableProperty]
+        private Trn_ContraViewModel transContra = new();
+
+        public decimal RemainingAmount => TotalAdj - TransContra.TotalSum();
 
         [RelayCommand]
         private void Process()
@@ -21,12 +30,9 @@ namespace WpfCheckerView.ViewModels
             OnPropertyChanged(nameof(RemainingAmount));
         }
 
-        public PaymentBalanceViewModel()
-        {
-            TransContra.PropertyChanged += TransContra_PropertyChanged;
-        }
 
-        partial void OnTransContraChanging(TransactionContra value)
+
+        partial void OnTransContraChanging(Trn_Contra value)
         {
             if (value != null)
             {
@@ -34,7 +40,7 @@ namespace WpfCheckerView.ViewModels
             }
         }
 
-        partial void OnTransContraChanged(TransactionContra value)
+        partial void OnTransContraChanged(Trn_Contra value)
         {
             if (value != null)
             {
@@ -44,44 +50,17 @@ namespace WpfCheckerView.ViewModels
 
         private void TransContra_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(TransactionContra.SuspenseAmt) ||
-                e.PropertyName == nameof(TransactionContra.ChequeAmt) ||
-                e.PropertyName == nameof(TransactionContra.TrAmount) ||
-                e.PropertyName == nameof(TransactionContra.SdAmount) ||
-                e.PropertyName == nameof(TransactionContra.OtherHeadsAmount))
+            if (e.PropertyName == nameof(Trn_ContraViewModel.SuspenseAmt) ||
+                e.PropertyName == nameof(Trn_ContraViewModel.ChequeAmt) ||
+                e.PropertyName == nameof(Trn_ContraViewModel.TrAmount) ||
+                e.PropertyName == nameof(Trn_ContraViewModel.SdAmount) ||
+                e.PropertyName == nameof(Trn_ContraViewModel.OtherHeadsAmount))
             {
                 OnPropertyChanged(nameof(RemainingAmount));
             }
         }
 
-        //private void PaymentMethods_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        //{
-        //    if (e.NewItems != null)
-        //    {
-        //        foreach (PaymentMethodEntry item in e.NewItems)
-        //        {
-        //            item.PropertyChanged += PaymentMethod_PropertyChanged;
-        //        }
-        //    }
-        //    if (e.OldItems != null)
-        //    {
-        //        foreach (PaymentMethodEntry item in e.OldItems)
-        //        {
-        //            item.PropertyChanged -= PaymentMethod_PropertyChanged;
-        //        }
-        //    }
-        //    OnPropertyChanged(nameof(RemainingAmount));
-        //}
-
-        //private void PaymentMethod_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        //{
-        //    if (e.PropertyName == nameof(PaymentMethodEntry.Amount))
-        //    {
-        //        OnPropertyChanged(nameof(RemainingAmount));
-        //    }
-        //}
-
-        partial void OnTotalAmountChanged(decimal value)
+        partial void OnTotalAdjChanged(decimal value)
         {
             OnPropertyChanged(nameof(RemainingAmount));
         }

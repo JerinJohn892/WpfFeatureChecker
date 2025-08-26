@@ -1,32 +1,21 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel;
 
-namespace WpfCheckerView.Models
+namespace WpfCheckerView.Models;
+
+public partial class TranSubDetailViewModel : ObservableValidator
 {
-    public class TransactionSubDetail : INotifyPropertyChanged
-    {
-        public string BranchCode { get; set; }
-        public string MasterId { get; set; }
-        public int? RowNo { get; set; }
-        public int SubCategory { get; set; }
-        public long AcCode { get; set; }
-        public long SubCode { get; set; }
-
-        private double? amount;
-        public double? Amount
-        {
-            get => amount;
-            set
-            {
-                if (amount != value)
-                {
-                    amount = value;
-                    OnPropertyChanged(nameof(Amount));
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    public string MasterId;
+    [ObservableProperty]
+    public string branchCode;
+    [ObservableProperty]
+    public int? rowNo;
+    [ObservableProperty]
+    public int subCategory;
+    [ObservableProperty]
+    public long acCode;
+    [ObservableProperty]
+    public long subCode;
+    [ObservableProperty]
+    public double? amount;
 }
