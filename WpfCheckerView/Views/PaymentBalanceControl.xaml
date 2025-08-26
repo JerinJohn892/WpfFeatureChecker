@@ -6,12 +6,11 @@
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" MinHeight="230"      >
-    <!--<syncfusion:SfSkinManager.Theme>
-        <syncfusion:Theme  ThemeName="Windows11Light" />
-    </syncfusion:SfSkinManager.Theme>-->
 
     <UserControl.Resources>
         <sys:Double x:Key="ExpanderHeaderWidth">300</sys:Double>
+        <sys:Double x:Key="AmountHeaderWidth">100</sys:Double>
+        <GridLength x:Key="ExpanderGridHeaderWidth">300</GridLength>
     </UserControl.Resources>
 
     <Grid Margin="5">
@@ -24,146 +23,151 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Total Amount:" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Margin="0,0,5,5" VerticalAlignment="Center" />
-        <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:C}}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,5" VerticalAlignment="Center" />
-        <Border  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="Black">
-            <Grid Margin="5" Grid.IsSharedSizeScope="True">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{StaticResource ExpanderHeaderWidth}" SharedSizeGroup="ExpanderHederLable" />
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Expander x:Name="ChequeExpander" Margin="0,0,0,5" Grid.Row="0" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
-                    <Expander.Header>
-                        <Grid>
+        <TextBlock Text="Total Amount:" FontWeight="Bold" Grid.Row="0" Grid.Column="0" />
+        <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:C}}" Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" />
+        <TextBlock Text="Remaining:"  FontWeight="Bold" Foreground="Orange" Grid.Column="2" />
+        <TextBlock Text="{Binding RemainingAmount, StringFormat={}{0:C}}" Grid.Column="3" VerticalAlignment="Center" />
+        <Border  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" BorderThickness="1" BorderBrush="Black">
+            <ScrollViewer>
+                <Grid Margin="5" Grid.IsSharedSizeScope="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding ExpanderGridHeaderWidth}" SharedSizeGroup="ExpanderHederLable" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition SharedSizeGroup="CurrencyValue" />
+                    </Grid.ColumnDefinitions>
+                    <Expander x:Name="ChequeExpander" Grid.Row="0" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
+                        <Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                </Grid.ColumnDefinitions>
+                                <Label Content="To Cheque" FontWeight="Bold" Grid.Column="0" />
+                                <TextBlock Text="{Binding TransContra.ChequeAmt, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
+                            </Grid>
+                        </Expander.Header>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="LableHeader" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="To Cheque" FontWeight="Bold" Grid.Column="0" />
-                            <TextBlock Text="{Binding TransContra.ChequeAmt, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
-                        </Grid>
-                    </Expander.Header>
-                    <Grid Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="LableHeader" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Cheque No:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.ChequeNo, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,5" />
-                        <TextBlock Text="Bank Name:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.BankName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,5" />
-                        <TextBlock Text="Cheque Date:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <DatePicker Text="{Binding TransContra.ChequeDate, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}"
-                             Grid.Row="2" Grid.Column="1" Margin="0,0,5,5" VerticalAlignment="Center"
+                            <Label Content="Cheque No:" Grid.Row="0" Grid.Column="0"  />
+                            <TextBox Text="{Binding TransContra.ChequeNo, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"  />
+                            <Label Content="Bank Name:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding TransContra.BankName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" />
+                            <Label Content="Cheque Date:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
+                            <DatePicker Text="{Binding TransContra.ChequeDate, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}"
+                             Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"
                              HorizontalAlignment="Left" Width="120" />
-                        <TextBlock Text="Cheque Amount:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.ChequeAmt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}"
-                             Grid.Row="3" Grid.Column="1" Margin="0,0,0,5" />
-                    </Grid>
-                </Expander>
-
-                <Expander x:Name="TransferExpander" Margin="0,0,0,5"  Grid.Row="1" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
-                    <Expander.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="To Transfer" FontWeight="Bold" Grid.Column="0" />
-                            <TextBlock Text="{Binding TransContra.TrAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
+                            <Label Content="Cheque Amount:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"  />
+                            <TextBox Text="{Binding TransContra.ChequeAmt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}"
+                             Grid.Row="3" Grid.Column="1" />
                         </Grid>
-                    </Expander.Header>
-                    <Grid Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"  SharedSizeGroup="LableHeader" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="UTR No:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.UTRNo, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,5" />
-                        <TextBlock Text="Transfer By:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.TransferBy, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,5" />
-                        <TextBlock Text="Transfer Bank Code:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.TrBankCode, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,0,5,5" />
-                        <TextBlock Text="Transfer Amount" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.TrAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" Grid.Row="3" Grid.Column="1" Margin="0,0,0,5" />
-                        <TextBlock Text="Transfer Remarks"  Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.TrRemarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Margin="0,0,0,5" />
-                    </Grid>
-                </Expander>
+                    </Expander>
 
-                <Expander x:Name="SdExpander" Margin="0,0,0,5"  Grid.Row="2" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
-                    <Expander.Header>
-                        <Grid>
+                    <Expander x:Name="TransferExpander"   Grid.Row="1" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
+                        <Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                </Grid.ColumnDefinitions>
+                                <Label Content="To Transfer" FontWeight="Bold" Grid.Column="0" />
+                                <TextBlock Text="{Binding TransContra.TrAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
+                            </Grid>
+                        </Expander.Header>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                <ColumnDefinition Width="Auto"  SharedSizeGroup="LableHeader" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="To SD" FontWeight="Bold" Grid.Column="0" />
-                            <TextBlock Text="{Binding TransContra.SdAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
+                            <Label Content="UTR No:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding TransContra.UTRNo, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" />
+                            <Label Content="Transfer By:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"  />
+                            <TextBox Text="{Binding TransContra.TransferBy, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"  />
+                            <Label Content="Transfer Bank Code:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding TransContra.TrBankCode, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"  />
+                            <Label Content="Transfer Amount" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"  />
+                            <TextBox Text="{Binding TransContra.TrAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" Grid.Row="3" Grid.Column="1"  />
+                            <Label Content="Transfer Remarks"  Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding TransContra.TrRemarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" />
                         </Grid>
-                    </Expander.Header>
-                    <Grid Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"  SharedSizeGroup="LableHeader"/>
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="SD No:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.SdAccountId, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,5" />
-                        <TextBlock Text="SD Amount:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.SdAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,5" />
-                        <TextBlock Text="Remarks" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,5,0" />
-                        <TextBox Text="{Binding TransContra.Remarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,0,0,5" />
-                    </Grid>
-                </Expander>
+                    </Expander>
 
-                <Expander x:Name="OtherExpander" Margin="0,0,0,5"  Grid.Row="3" Grid.ColumnSpan="3" IsExpanded="True" Expanded="Expander_Expanded">
-                    <Expander.Header>
-                        <Grid>
+                    <Expander x:Name="SdExpander"  Grid.Row="2" Grid.ColumnSpan="3" Expanded="Expander_Expanded">
+                        <Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable"/>
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                </Grid.ColumnDefinitions>
+                                <Label Content="To SD" FontWeight="Bold" Grid.Column="0" />
+                                <TextBlock Text="{Binding TransContra.SdAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
+                            </Grid>
+                        </Expander.Header>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable" />
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                <ColumnDefinition Width="Auto"  SharedSizeGroup="LableHeader"/>
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="To Other Heads" FontWeight="Bold" Grid.Column="0" />
-                            <TextBlock Text="{Binding TransContra.OtherHeadsAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
+                            <Label Content="SD No:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding TransContra.SdAccountId, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"  />
+                            <Label Content="SD Amount:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"  />
+                            <TextBox Text="{Binding TransContra.SdAmount, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}" Grid.Row="1" Grid.Column="1" />
+                            <Label Content="Remarks" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"  />
+                            <TextBox Text="{Binding TransContra.Remarks, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" />
                         </Grid>
-                    </Expander.Header>
-                    <Grid Margin="0,5,0,5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+                    </Expander>
 
-                        <syncfusion:SfDataGrid x:Name="OtherHeadsDataGrid"
+                    <Expander x:Name="OtherExpander"   Grid.Row="3" Grid.ColumnSpan="3" IsExpanded="True" Expanded="Expander_Expanded">
+                        <Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" SharedSizeGroup="ExpanderHederLable" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="150" SharedSizeGroup="CurrencyValue" />
+                                </Grid.ColumnDefinitions>
+                                <Label Content="To Other Heads" FontWeight="Bold" Grid.Column="0" />
+                                <TextBlock Text="{Binding TransContra.OtherHeadsAmount, StringFormat={}{0:C}}" Grid.Column="2" HorizontalAlignment="Right" />
+                            </Grid>
+                        </Expander.Header>
+                        <Grid Margin="0,5,0,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <syncfusion:SfDataGrid x:Name="OtherHeadsDataGrid"
                        ItemsSource="{Binding TransContra.OtherTranDetails}"
                        AutoGenerateColumns="False"
                        AllowEditing="True"
@@ -171,52 +175,51 @@
                        ShowRowHeader="False"
                        NavigationMode="Cell">
 
-                            <!-- Master Columns -->
-                            <syncfusion:SfDataGrid.Columns>
-                                <syncfusion:GridTextColumn Width="{StaticResource ExpanderHeaderWidth}"
+                                <!-- Master Columns -->
+                                <syncfusion:SfDataGrid.Columns>
+                                    <syncfusion:GridTextColumn Width="{StaticResource ExpanderHeaderWidth}"
                                    HeaderText="A/C Head"
                                    MappingName="AccountType"/>
-                                <syncfusion:GridNumericColumn Width="100"
+                                    <syncfusion:GridNumericColumn Width="{StaticResource AmountHeaderWidth}"
                                       HeaderText="Adjustment"
                                       MappingName="AdjAmount"/>
-                            </syncfusion:SfDataGrid.Columns>
+                                </syncfusion:SfDataGrid.Columns>
 
-                            <!-- Detail Grid -->
-                            <syncfusion:SfDataGrid.DetailsViewDefinition >
-                                <syncfusion:GridViewDefinition >
-                                    <syncfusion:GridViewDefinition.RelationalColumn>
-                                        <!-- must match property name in model -->
-                                        MiscTranSubDetails
-                                    </syncfusion:GridViewDefinition.RelationalColumn>
+                                <!-- Detail Grid -->
+                                <syncfusion:SfDataGrid.DetailsViewDefinition >
+                                    <syncfusion:GridViewDefinition >
+                                        <syncfusion:GridViewDefinition.RelationalColumn>
+                                            <!-- must match property name in model -->
+                                            MiscTranSubDetails
+                                        </syncfusion:GridViewDefinition.RelationalColumn>
 
-                                    <syncfusion:GridViewDefinition.DataGrid >
-                                        <syncfusion:SfDataGrid Padding="-2"  AutoGenerateColumns="False"
+                                        <syncfusion:GridViewDefinition.DataGrid >
+                                            <syncfusion:SfDataGrid  AutoGenerateColumns="False"
                                        AddNewRowPosition="Bottom"
                                        AllowEditing="True"
                                        NavigationMode="Cell"
                                        ShowRowHeader="False"
                                        MinHeight="120">
-                                            <syncfusion:SfDataGrid.Columns>
-                                                <syncfusion:GridTextColumn Width="{StaticResource ExpanderHeaderWidth}"
+                                                <syncfusion:SfDataGrid.Columns>
+                                                    <syncfusion:GridTextColumn Width="{StaticResource ExpanderHeaderWidth}"
                                                    HeaderText="Sub Head"
                                                    MappingName="SubCode"/>
-                                                <syncfusion:GridNumericColumn Width="100"
+                                                    <syncfusion:GridNumericColumn  Width="{StaticResource AmountHeaderWidth}"
                                                       HeaderText="Amount"
                                                       MappingName="Amount"/>
-                                            </syncfusion:SfDataGrid.Columns>
-                                        </syncfusion:SfDataGrid>
-                                    </syncfusion:GridViewDefinition.DataGrid>
-                                </syncfusion:GridViewDefinition>
-                            </syncfusion:SfDataGrid.DetailsViewDefinition>
-                        </syncfusion:SfDataGrid>
-                    </Grid>
-                </Expander>
-            </Grid>
+                                                </syncfusion:SfDataGrid.Columns>
+                                            </syncfusion:SfDataGrid>
+                                        </syncfusion:GridViewDefinition.DataGrid>
+                                    </syncfusion:GridViewDefinition>
+                                </syncfusion:SfDataGrid.DetailsViewDefinition>
+                            </syncfusion:SfDataGrid>
+                        </Grid>
+                    </Expander>
+                </Grid>
+            </ScrollViewer>
         </Border>
-        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-            <Button Content="Process" Command="{Binding ProcessCommand}" Margin="0,0,5,0" />
-            <TextBlock Text="Remaining:"  FontWeight="Bold" Foreground="Orange" Margin="0,0,5,0" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding RemainingAmount, StringFormat={}{0:C}}" VerticalAlignment="Center" />
-        </StackPanel>
+        <!--<StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Content="Process" Command="{Binding ProcessCommand}" Margin="0,0,5,0" />           
+        </StackPanel>-->
     </Grid>
 </UserControl>
