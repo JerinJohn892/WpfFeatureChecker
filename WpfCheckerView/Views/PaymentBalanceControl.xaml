@@ -4,10 +4,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" MinHeight="230"      >
     <!--<syncfusion:SfSkinManager.Theme>
         <syncfusion:Theme  ThemeName="Windows11Light" />
     </syncfusion:SfSkinManager.Theme>-->
+
+    <UserControl.Resources>
+        <sys:Double x:Key="ExpanderHeaderWidth">300</sys:Double>
+    </UserControl.Resources>
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -32,7 +37,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="235" SharedSizeGroup="ExpanderHederLable" />
+                    <ColumnDefinition Width="{StaticResource ExpanderHeaderWidth}" SharedSizeGroup="ExpanderHederLable" />
                     <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
@@ -168,7 +173,7 @@
 
                             <!-- Master Columns -->
                             <syncfusion:SfDataGrid.Columns>
-                                <syncfusion:GridTextColumn Width="300"
+                                <syncfusion:GridTextColumn Width="{StaticResource ExpanderHeaderWidth}"
                                    HeaderText="A/C Head"
                                    MappingName="AccountType"/>
                                 <syncfusion:GridNumericColumn Width="100"
@@ -192,7 +197,7 @@
                                        ShowRowHeader="False"
                                        MinHeight="120">
                                             <syncfusion:SfDataGrid.Columns>
-                                                <syncfusion:GridTextColumn Width="295"
+                                                <syncfusion:GridTextColumn Width="{StaticResource ExpanderHeaderWidth}"
                                                    HeaderText="Sub Head"
                                                    MappingName="SubCode"/>
                                                 <syncfusion:GridNumericColumn Width="100"
