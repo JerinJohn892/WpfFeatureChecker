@@ -15,14 +15,24 @@ internal static class Program
 
     private static void Main()
     {
-        Log("System configuration check started");
-        LogResult("System Name", GetSystemName);
-        LogResult("MAC Address", GetMacAddress);
-        LogResult("Public IP", GetPublicIp);
-        LogResult("Local IP", GetLocalIp);
-        LogResult("Hard Disk Serial Number", GetHardDiskSerialNumber);
-        LogResult("BaseBoard Serial Number", GetBaseBoardSerialNumber);
-        Log("System configuration check finished");
+        try
+        {
+            Log("System configuration check started");
+            LogResult("System Name", GetSystemName);
+            LogResult("MAC Address", GetMacAddress);
+            LogResult("Public IP", GetPublicIp);
+            LogResult("Local IP", GetLocalIp);
+            LogResult("Hard Disk Serial Number", GetHardDiskSerialNumber);
+            LogResult("BaseBoard Serial Number", GetBaseBoardSerialNumber);
+        }
+        catch (Exception ex)
+        {
+            LogError("Fatal error", ex);
+        }
+        finally
+        {
+            Log("System configuration check finished");
+        }
     }
 
     private static void LogResult(string label, Func<string?> getter)
@@ -41,13 +51,25 @@ internal static class Program
         }
         catch (Exception ex)
         {
-            Log($"{label} error: {ex.Message}");
+            LogError(label, ex);
         }
     }
 
     private static void Log(string message)
     {
-        File.AppendAllText(LogFile, $"{DateTime.Now:O} {message}{Environment.NewLine}");
+        try
+        {
+            File.AppendAllText(LogFile, $"{DateTime.Now:O} {message}{Environment.NewLine}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Logging failed: {ex}");
+        }
+    }
+
+    private static void LogError(string label, Exception ex)
+    {
+        Log($"{label} error: {ex}");
     }
 
     private static string GetSystemName()
@@ -89,10 +111,14 @@ internal static class Program
 
     private static string? GetHardDiskSerialNumber()
     {
-        var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
-        foreach (ManagementObject obj in searcher.Get())
+        using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
+        using var results = searcher.Get();
+        foreach (ManagementObject obj in results)
         {
-            return obj["SerialNumber"]?.ToString()?.Trim();
+            using (obj)
+            {
+                return obj["SerialNumber"]?.ToString()?.Trim();
+            }
         }
 
         return null;
@@ -100,10 +126,14 @@ internal static class Program
 
     private static string? GetBaseBoardSerialNumber()
     {
-        var searcher = new ManagementObjectSearcher("SELECT SerialNumber FROM Win32_BaseBoard");
-        foreach (ManagementObject obj in searcher.Get())
+        using var searcher = new ManagementObjectSearcher("SELECT SerialNumber FROM Win32_BaseBoard");
+        using var results = searcher.Get();
+        foreach (ManagementObject obj in results)
         {
-            return obj["SerialNumber"]?.ToString();
+            using (obj)
+            {
+                return obj["SerialNumber"]?.ToString();
+            }
         }
 
         return null;
