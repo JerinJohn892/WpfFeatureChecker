@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Linq;
 using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -13,17 +10,31 @@ public static class Program
 {
     private static readonly string LogFile = Path.Combine(AppContext.BaseDirectory, "system_config.log");
 
-    public static void Main()
+    public static (string systemName,
+        string macAddress,
+        string publicIP,
+        string localIP,
+        string hardDiskSerialNumber,
+        string baseBoardSerialNumber
+        ) GetSystemConfig()
+
     {
+        var systemName = string.Empty;
+        var macAddress = string.Empty;
+        var publicIP = string.Empty;
+        var localIP = string.Empty;
+        var hardDiskSerialNumber = string.Empty;
+        var baseBoardSerialNumber = string.Empty;
+
         try
         {
             Log("System configuration check started");
-            LogResult("System Name", GetSystemName);
-            LogResult("MAC Address", GetMacAddress);
-            LogResult("Public IP", GetPublicIp);
-            LogResult("Local IP", GetLocalIp);
-            LogResult("Hard Disk Serial Number", GetHardDiskSerialNumber);
-            LogResult("BaseBoard Serial Number", GetBaseBoardSerialNumber);
+            systemName = LogResult("System Name", GetSystemName);
+            macAddress = LogResult("MAC Address", GetMacAddress);
+            publicIP = LogResult("Public IP", GetPublicIp);
+            localIP = LogResult("Local IP", GetLocalIp);
+            hardDiskSerialNumber = LogResult("Hard Disk Serial Number", GetHardDiskSerialNumber);
+            baseBoardSerialNumber = LogResult("BaseBoard Serial Number", GetBaseBoardSerialNumber);
         }
         catch (Exception ex)
         {
@@ -32,14 +43,22 @@ public static class Program
         finally
         {
             Log("System configuration check finished");
+
         }
+        return (systemName,
+            macAddress,
+            publicIP,
+            localIP,
+            hardDiskSerialNumber,
+            baseBoardSerialNumber);
     }
 
-    private static void LogResult(string label, Func<string?> getter)
+    private static string LogResult(string label, Func<string?> getter)
     {
+        string value = string.Empty; // Declare the variable outside the try-finally block
         try
         {
-            var value = getter();
+            value = getter();
             if (string.IsNullOrWhiteSpace(value))
             {
                 Log($"{label}: value not found");
@@ -53,6 +72,11 @@ public static class Program
         {
             LogError(label, ex);
         }
+        //finally
+        //{
+        //    return value; // Ensure the return statement is outside the try-finally block
+        //}
+        return value; // Ensure the return statement is outside the try-finally block
     }
 
     private static void Log(string message)

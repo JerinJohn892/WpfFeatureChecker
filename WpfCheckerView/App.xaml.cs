@@ -27,7 +27,7 @@ namespace WpfCheckerView
                 MessageBox.Show($"Error registering Syncfusion license: {ex.Message}", "License Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            Program.Main();
+            var datas= Program.GetSystemConfig();
         }
     }
 
