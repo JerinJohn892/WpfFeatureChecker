@@ -9,11 +9,11 @@ using System.Text.RegularExpressions;
 
 namespace SystemConfigChecker;
 
-internal static class Program
+public static class Program
 {
     private static readonly string LogFile = Path.Combine(AppContext.BaseDirectory, "system_config.log");
 
-    private static void Main()
+    public static void Main()
     {
         try
         {

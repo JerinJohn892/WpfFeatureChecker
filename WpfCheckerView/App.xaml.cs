@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
-
+using SystemConfigChecker;
 
 namespace WpfCheckerView
 {
@@ -13,6 +13,7 @@ namespace WpfCheckerView
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
             try
             {
                 //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF5cXmVCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdgWXZfd3RSRGhZVkxxVko="); 23.1.36
@@ -25,6 +26,8 @@ namespace WpfCheckerView
             {
                 MessageBox.Show($"Error registering Syncfusion license: {ex.Message}", "License Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            Program.Main();
         }
     }
 
