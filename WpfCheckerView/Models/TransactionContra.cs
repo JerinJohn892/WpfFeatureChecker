@@ -69,6 +69,8 @@ public partial class Trn_ContraViewModel : ObservableValidator
 
     public decimal OtherHeadsAmount => OtherTranDetails.Sum(d => (decimal)d.EffectiveAdjAmount);
 
+    public int AdjAmount { get; set; }
+
     public decimal TotalSum()
     {
         return (decimal)((SuspenseAmt ?? 0) +

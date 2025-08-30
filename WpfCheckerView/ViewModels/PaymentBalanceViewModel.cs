@@ -24,6 +24,8 @@ namespace WpfCheckerView.ViewModels
 
         public decimal RemainingAmount => TotalAdj - TransContra.TotalSum();
 
+        public decimal TotalAmount { get;  set; }
+
         [RelayCommand]
         private void Process()
         {
@@ -32,7 +34,7 @@ namespace WpfCheckerView.ViewModels
 
 
 
-        partial void OnTransContraChanging(Trn_Contra value)
+        partial void OnTransContraChanging(Trn_ContraViewModel value)
         {
             if (value != null)
             {
@@ -40,7 +42,7 @@ namespace WpfCheckerView.ViewModels
             }
         }
 
-        partial void OnTransContraChanged(Trn_Contra value)
+        partial void OnTransContraChanged(Trn_ContraViewModel value)
         {
             if (value != null)
             {
