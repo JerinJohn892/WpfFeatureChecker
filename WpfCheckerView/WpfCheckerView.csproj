@@ -34,8 +34,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CustomControls\CustomControls.csproj" />
+    <ProjectReference Include="..\SystemConfigChecker\SystemConfigChecker.csproj" />
   </ItemGroup>
-	<ItemGroup>
-		<Resource Include="AppIcon.ico" />
-	</ItemGroup>
+  <ItemGroup>
+    <Resource Include="AppIcon.ico" />
+  </ItemGroup>
 </Project>
