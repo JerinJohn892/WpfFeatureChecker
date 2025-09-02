@@ -90,7 +90,8 @@
                     <syncfusion:GridTextColumn MappingName="PanNo" HeaderText="Pan No" />
                 </syncfusion:SfDataGrid.Columns>
             </syncfusion:SfDataGrid>
-            <local:PaymentBalanceControl  Grid.Row="1" Height="350" DataContext="{Binding PaymentBalance}" />
+            <local:FasHeadDemoControl  Grid.Row="1" Height="350" DataContext="{Binding FasHeadDemo}" />
+            <!--<local:PaymentBalanceControl  Grid.Row="1" Height="350" DataContext="{Binding PaymentBalance}" />-->
             <!--<Expander Grid.Row="1" Header="Payment Methods">
                 <local:PaymentBalanceControl DataContext="{Binding PaymentBalance}" />
             </Expander>-->

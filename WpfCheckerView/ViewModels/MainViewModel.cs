@@ -41,6 +41,9 @@ namespace WpfCheckerView.ViewModels
         private PaymentBalanceViewModel paymentBalance = new();
 
         [ObservableProperty]
+        private FasHeadDemoViewModel fasHeadDemo = new();
+
+        [ObservableProperty]
         private ObservableCollection<string> themes = null!;
 
         [ObservableProperty]
@@ -51,6 +54,7 @@ namespace WpfCheckerView.ViewModels
             _employeeService = employeeService;
             _departmentService = departmentService;
             PaymentBalance.TotalAmount = 100m;
+            
             LoadData();
 
             Themes = new ObservableCollection<string>

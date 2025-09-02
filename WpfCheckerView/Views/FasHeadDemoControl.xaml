@@ -5,9 +5,9 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:vm="clr-namespace:WpfCheckerView.ViewModels"
              MinHeight="230">
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <vm:FasHeadDemoViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
     <UserControl.Resources>
         <sys:Double x:Key="ExpanderHeaderWidth">300</sys:Double>
         <sys:Double x:Key="AmountHeaderWidth">100</sys:Double>
@@ -19,10 +19,13 @@
                                ShowRowHeader="False"
                                NavigationMode="Cell">
             <syncfusion:SfDataGrid.Columns>
-                <syncfusion:GridTextColumn MappingName="FasName" HeaderText="A/C Head" Width="{StaticResource ExpanderHeaderWidth}"/>
+                <syncfusion:GridComboBoxColumn MappingName="FasName" HeaderText="A/C Head" Width="{StaticResource ExpanderHeaderWidth}"
+                                               ItemsSource="{Binding FasHeads}"
+DisplayMemberPath="FasName"
+SelectedValuePath="FasCode" />
                 <syncfusion:GridNumericColumn MappingName="AdjAmount" HeaderText="Adjustment" Width="{StaticResource AmountHeaderWidth}"/>
             </syncfusion:SfDataGrid.Columns>
-            <syncfusion:SfDataGrid.RowExpanderStyle>
+            <!--<syncfusion:SfDataGrid.RowExpanderStyle>
                 <Style TargetType="syncfusion:GridRowExpanderCell">
                     <Setter Property="Visibility" Value="Visible"/>
                     <Style.Triggers>
@@ -31,16 +34,21 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </syncfusion:SfDataGrid.RowExpanderStyle>
+            </syncfusion:SfDataGrid.RowExpanderStyle>-->
             <syncfusion:SfDataGrid.DetailsViewDefinition>
                 <syncfusion:GridViewDefinition>
                     <syncfusion:GridViewDefinition.RelationalColumn>SubHeads</syncfusion:GridViewDefinition.RelationalColumn>
-                    <syncfusion:GridViewDefinition.DataGrid>
+                    <syncfusion:GridViewDefinition.DataGrid >
                         <syncfusion:SfDataGrid AutoGenerateColumns="False"
                                                ShowRowHeader="False"
-                                               NavigationMode="Cell">
+                                               NavigationMode="Cell" Height="300">
                             <syncfusion:SfDataGrid.Columns>
-                                <syncfusion:GridTextColumn MappingName="SubName" HeaderText="Sub Head" Width="{StaticResource ExpanderHeaderWidth}"/>
+                                <syncfusion:GridComboBoxColumn  Width="{StaticResource ExpanderHeaderWidth}"
+                                                                HeaderText="{Binding CategoryHead}"
+                                                                MappingName="SubCode"
+ ItemsSource="{Binding FasHeads}"
+ DisplayMemberPath="SubName"
+ SelectedValuePath="SubCode"/>
                                 <syncfusion:GridNumericColumn MappingName="Amount" HeaderText="Amount" Width="{StaticResource AmountHeaderWidth}"/>
                             </syncfusion:SfDataGrid.Columns>
                         </syncfusion:SfDataGrid>

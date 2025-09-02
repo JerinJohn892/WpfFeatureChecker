@@ -10,15 +10,15 @@ public partial class FasHeadDemoControl : UserControl
     public FasHeadDemoControl()
     {
         InitializeComponent();
-        FasGrid.DetailsViewManager.QueryDetailsViewExpanding += DetailsViewManager_QueryDetailsViewExpanding;
+        //FasGrid.DetailsViewManager.QueryDetailsViewExpanding += DetailsViewManager_QueryDetailsViewExpanding;
     }
 
-    private void DetailsViewManager_QueryDetailsViewExpanding(object? sender, QueryDetailsViewExpandingEventArgs e)
-    {
-        if (e.Record is FasHead head && !head.HasSubHeads)
-        {
-            e.Cancel = true;
-        }
-    }
+    //private void DetailsViewManager_QueryDetailsViewExpanding(object? sender, QueryDetailsViewExpandingEventArgs e)
+    //{
+    //    if (e.Record is FasHead head && !head.HasSubHeads)
+    //    {
+    //        e.Cancel = true;
+    //    }
+    //}
 }
 
