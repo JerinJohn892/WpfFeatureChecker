@@ -34,6 +34,10 @@ public partial class TranDetailViewModel : ObservableValidator
     [ObservableProperty]
     public int acCode;
     [ObservableProperty]
+    public int categoryCode;
+    [ObservableProperty]
+    public string? categoryHead;
+    [ObservableProperty]
     public double? cashAmount;
     [ObservableProperty]
     public double? adjAmount;
