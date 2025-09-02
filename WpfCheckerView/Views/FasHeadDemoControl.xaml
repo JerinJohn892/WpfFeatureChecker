@@ -1,0 +1,52 @@
+<UserControl x:Class="WpfCheckerView.Views.FasHeadDemoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:vm="clr-namespace:WpfCheckerView.ViewModels"
+             MinHeight="230">
+    <UserControl.DataContext>
+        <vm:FasHeadDemoViewModel/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <sys:Double x:Key="ExpanderHeaderWidth">300</sys:Double>
+        <sys:Double x:Key="AmountHeaderWidth">100</sys:Double>
+    </UserControl.Resources>
+    <Grid>
+        <syncfusion:SfDataGrid x:Name="FasGrid"
+                               ItemsSource="{Binding FasHeads}"
+                               AutoGenerateColumns="False"
+                               ShowRowHeader="False"
+                               NavigationMode="Cell">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn MappingName="FasName" HeaderText="A/C Head" Width="{StaticResource ExpanderHeaderWidth}"/>
+                <syncfusion:GridNumericColumn MappingName="AdjAmount" HeaderText="Adjustment" Width="{StaticResource AmountHeaderWidth}"/>
+            </syncfusion:SfDataGrid.Columns>
+            <syncfusion:SfDataGrid.RowExpanderStyle>
+                <Style TargetType="syncfusion:GridRowExpanderCell">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Record.HasSubHeads}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </syncfusion:SfDataGrid.RowExpanderStyle>
+            <syncfusion:SfDataGrid.DetailsViewDefinition>
+                <syncfusion:GridViewDefinition>
+                    <syncfusion:GridViewDefinition.RelationalColumn>SubHeads</syncfusion:GridViewDefinition.RelationalColumn>
+                    <syncfusion:GridViewDefinition.DataGrid>
+                        <syncfusion:SfDataGrid AutoGenerateColumns="False"
+                                               ShowRowHeader="False"
+                                               NavigationMode="Cell">
+                            <syncfusion:SfDataGrid.Columns>
+                                <syncfusion:GridTextColumn MappingName="SubName" HeaderText="Sub Head" Width="{StaticResource ExpanderHeaderWidth}"/>
+                                <syncfusion:GridNumericColumn MappingName="Amount" HeaderText="Amount" Width="{StaticResource AmountHeaderWidth}"/>
+                            </syncfusion:SfDataGrid.Columns>
+                        </syncfusion:SfDataGrid>
+                    </syncfusion:GridViewDefinition.DataGrid>
+                </syncfusion:GridViewDefinition>
+            </syncfusion:SfDataGrid.DetailsViewDefinition>
+        </syncfusion:SfDataGrid>
+    </Grid>
+</UserControl>
