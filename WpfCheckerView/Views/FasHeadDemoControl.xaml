@@ -4,6 +4,7 @@
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:vm="clr-namespace:WpfCheckerView.ViewModels"
+             xmlns:nice="clr-namespace:Nice;assembly=CustomControls"
              MinHeight="230">
     <!--<UserControl.DataContext>
         <vm:FasHeadDemoViewModel/>
@@ -11,21 +12,28 @@
     <UserControl.Resources>
         <sys:Double x:Key="ExpanderHeaderWidth">300</sys:Double>
         <sys:Double x:Key="AmountHeaderWidth">100</sys:Double>
+        <x:Array x:Key="TestAccounts" Type="{x:Type sys:String}" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:String>Cash</sys:String>
+            <sys:String>Bank</sys:String>
+            <sys:String>Sales</sys:String>
+        </x:Array>
     </UserControl.Resources>
     <Grid>
-        <syncfusion:SfDataGrid x:Name="FasGrid"
+        <nice:SfDataGridExt x:Name="FasGrid"
                                ItemsSource="{Binding TranDetails}"
                                AutoGenerateColumns="False"
                                ShowRowHeader="False"
                                NavigationMode="Cell">
-            <syncfusion:SfDataGrid.Columns>
+            
+            <nice:SfDataGridExt.Columns>
                 <syncfusion:GridComboBoxColumn MappingName="AcCode" HeaderText="A/C Head" Width="{StaticResource ExpanderHeaderWidth}"
-                                               ItemsSource="{Binding DataContext.FasHeads, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                               ItemsSource="{Binding TestAccounts}"
                                                DisplayMemberPath="FasName"
                                                SelectedValuePath="FasCode" />
                 <syncfusion:GridNumericColumn MappingName="AdjAmount" HeaderText="Adjustment" Width="{StaticResource AmountHeaderWidth}"/>
-            </syncfusion:SfDataGrid.Columns>
-            <syncfusion:SfDataGrid.RowExpanderStyle>
+            </nice:SfDataGridExt.Columns>
+            <!--<syncfusion:SfDataGrid.RowExpanderStyle>
                 <Style TargetType="syncfusion:GridRowExpanderCell">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
@@ -34,8 +42,8 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </syncfusion:SfDataGrid.RowExpanderStyle>
-            <syncfusion:SfDataGrid.DetailsViewDefinition>
+            </syncfusion:SfDataGrid.RowExpanderStyle>-->
+            <!--<syncfusion:SfDataGrid.DetailsViewDefinition>
                 <syncfusion:GridViewDefinition>
                     <syncfusion:GridViewDefinition.RelationalColumn>TranSubDetails</syncfusion:GridViewDefinition.RelationalColumn>
                     <syncfusion:GridViewDefinition.DataGrid>
@@ -55,7 +63,7 @@
                         </syncfusion:SfDataGrid>
                     </syncfusion:GridViewDefinition.DataGrid>
                 </syncfusion:GridViewDefinition>
-            </syncfusion:SfDataGrid.DetailsViewDefinition>
-        </syncfusion:SfDataGrid>
+            </syncfusion:SfDataGrid.DetailsViewDefinition>-->
+        </nice:SfDataGridExt>
     </Grid>
 </UserControl>
