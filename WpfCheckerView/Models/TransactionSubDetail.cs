@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace WpfCheckerView.Models;
@@ -18,4 +19,7 @@ public partial class TranSubDetailViewModel : ObservableValidator
     public long subCode;
     [ObservableProperty]
     public double? amount;
+
+    [ObservableProperty]
+    public ObservableCollection<FasHeadSubCategories> fasHeadSubCategories;
 }

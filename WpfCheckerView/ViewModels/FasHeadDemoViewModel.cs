@@ -1,32 +1,96 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Syncfusion.UI.Xaml.Grid;
+using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
 using WpfCheckerView.Models;
 
 namespace WpfCheckerView.ViewModels;
 
-public class FasHeadDemoViewModel
+public partial class FasHeadDemoViewModel : ObservableValidator
 {
-    public ObservableCollection<TranDetailViewModel> TranDetails { get; } = new();
-    public ObservableCollection<FasHead> FasHeads { get; } = new();
-    public ObservableCollection<FasHeadSubCategories> FasHeadSubCategories { get; } = new();
+    [ObservableProperty]
+    public ObservableCollection<TranDetailViewModel> tranDetails  = new();
 
+    [ObservableProperty]
+    public ObservableCollection<FasHead> fasHeads  = new();
+
+    [ObservableProperty]
+    public ObservableCollection<FasHeadSubCategories> fullFasHeadSubCategories  = new();
+
+    private Dictionary<int, IList<FasHeadSubCategories>> groupFasHeadSubCategories;
     public FasHeadDemoViewModel()
     {
         FasHeads.Add(new FasHead { FasCode = 1, FasName = "Share Capital A Class", CategoryCode = 1, CategoryHead = "Agent Name" });
         FasHeads.Add(new FasHead { FasCode = 2, FasName = "Loan to Members Ordinary", CategoryCode = 2, CategoryHead = "Agent Name" });
         FasHeads.Add(new FasHead { FasCode = 3, FasName = "Interest on Loans Ordinary", CategoryCode = 3, CategoryHead = "Due-by Head" });
+        FasHeads.Add(new FasHead { FasCode = 3, FasName = "Interest on Loans Ordinary", CategoryCode = 4, CategoryHead = "Due-to Head" });
+        FasHeads.Add(new FasHead { FasCode = 3, FasName = "Interest on Loans Ordinary", CategoryCode = 5, CategoryHead = "Staff" });
+        FasHeads.Add(new FasHead { FasCode = 3, FasName = "Interest on Loans Ordinary", CategoryCode = 0, CategoryHead = "Misslaneass" });
 
-        FasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 201, SubName = "Member A", CategoryCode = 2, CategoryHead = "Agent Name", SelectedBranch = "Main" });
-        FasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 202, SubName = "Member B", CategoryCode = 2, CategoryHead = "Agent Name", SelectedBranch = "Main" });
+        FullFasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 201, SubName = "Member A", CategoryCode = 2, CategoryHead = "Agent Name", SelectedBranch = "Main" });
+        FullFasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 202, SubName = "Member B", CategoryCode = 2, CategoryHead = "Agent Name", SelectedBranch = "Main" });
+        FullFasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 203, SubName = "Jose", CategoryCode = 5, CategoryHead = "Staff", SelectedBranch = "Main" });
+        FullFasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 204, SubName = "Joko B", CategoryCode = 5, CategoryHead = "Staff", SelectedBranch = "Main" });
+        FullFasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 205, SubName = "Jiby", CategoryCode = 5, CategoryHead = "Staff", SelectedBranch = "Main" });
+        FullFasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 206, SubName = "Loan", CategoryCode = 3, CategoryHead = "Due-by Head", SelectedBranch = "Main" });
+        FullFasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 207, SubName = "GoldLoan", CategoryCode = 3, CategoryHead = "Due-by Head", SelectedBranch = "Main" });
 
-        var detail1 = new TranDetailViewModel { AcCode = 1, CategoryCode = 1, CategoryHead = "Agent Name", AdjAmount = 1000 };
+        groupFasHeadSubCategories= GetSortedSubFasHeads(FullFasHeadSubCategories);
+
+        var detail1 = new TranDetailViewModel { AcCode = 1, CategoryCode = 1, CategoryHead = "Agent Name", AdjAmount = 1000, IsSubOptionsPresent=false };
         TranDetails.Add(detail1);
 
-        var detail2 = new TranDetailViewModel { AcCode = 2, CategoryCode = 2, CategoryHead = "Agent Name" };
+
+        var detail2 = new TranDetailViewModel { AcCode = 2, CategoryCode = 2, CategoryHead = "Agent Name", IsSubOptionsPresent = true };
         detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 201, Amount = 300 });
         detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 202, Amount = 200 });
         TranDetails.Add(detail2);
 
-        var detail3 = new TranDetailViewModel { AcCode = 3, CategoryCode = 3, CategoryHead = "Due-by Head", AdjAmount = 150 };
+        var detail3 = new TranDetailViewModel { AcCode = 3, CategoryCode = 3, CategoryHead = "Due-by Head", AdjAmount = 150, IsSubOptionsPresent = false };
         TranDetails.Add(detail3);
+    }
+
+    private Dictionary<int, IList<FasHeadSubCategories>> GetSortedSubFasHeads(IList<FasHeadSubCategories> fullSubFasHeads)
+    {
+        return fullSubFasHeads
+            .GroupBy(x => x.CategoryCode)
+            .ToDictionary(g => g.Key, g => (IList<FasHeadSubCategories>)g.ToList());
+    }
+
+    private void UpdateTranDetail(TranDetailViewModel tranDetailViewModel,
+        ObservableCollection<FasHead> fasHeads,
+        Dictionary<int, IList<FasHeadSubCategories>> goupedsUBFasHeads)
+    {
+        tranDetailViewModel.FasHeads = fasHeads;
+        tranDetailViewModel.GroupFasHeadSubCategories = goupedsUBFasHeads;
+    }
+
+    [RelayCommand]
+    protected void AddNewRow(object e)
+    {
+        var eventDetails = e as AddNewRowInitiatingEventArgs;
+        if (eventDetails?.NewObject == null)
+            return;
+
+        switch (eventDetails.NewObject)
+        {
+            case TranDetailViewModel tranDetailViewModel:
+                UpdateTranDetail(tranDetailViewModel, FasHeads, groupFasHeadSubCategories);
+                //SetFormDetailsTochildViewModel(lADetail);
+                break;
+
+            case TranSubDetailViewModel tranSubDetailViewModel:
+                //UpdateSubTranDetail(property);
+                //SetFormDetailsTochildViewModel(property);
+                break;            
+
+            default:
+                // Handle unknown types or log as needed
+                break;
+        }
     }
 }

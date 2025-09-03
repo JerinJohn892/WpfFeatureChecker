@@ -35,12 +35,33 @@ public partial class TranDetailViewModel : ObservableValidator
     public int acCode;
     [ObservableProperty]
     public int categoryCode;
+    partial void OnCategoryCodeChanged(int oldValue, int newValue)
+    {
+        if (oldValue != newValue)
+        {
+            CategoryCodeChange(newValue);
+        }
+    }
+
+
     [ObservableProperty]
     public string? categoryHead;
     [ObservableProperty]
     public double? cashAmount;
     [ObservableProperty]
     public double? adjAmount;
+
+    [ObservableProperty]
+    public bool isSubOptionsPresent;
+
+    [ObservableProperty]
+    public ObservableCollection<FasHead> fasHeads;
+    [ObservableProperty]
+    public ObservableCollection<FasHeadSubCategories> subFasHeads;
+
+    public Dictionary<int, IList<FasHeadSubCategories>> GroupFasHeadSubCategories { get; set; }
+
+
     partial void OnAdjAmountChanged(double? oldValue, double? newValue)
     {
         if (oldValue != newValue)
@@ -85,5 +106,11 @@ public partial class TranDetailViewModel : ObservableValidator
         : (AdjAmount ?? 0);
 
     public double SubDetailsTotal => TranSubDetails.Sum(d => d.Amount ?? 0);
+
+    private void CategoryCodeChange(int newValue)
+    {
+        //ToDo: Implement the logic to handle category code change
+        // CategoryCode has changed, So update the SubFasHeads accordingly from GroupFasHeadSubCategories 
+    }
 
 }

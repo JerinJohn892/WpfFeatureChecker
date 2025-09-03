@@ -1,18 +1,36 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace WpfCheckerView.Models;
 
-public class FasHead
+public partial class FasHead : ObservableValidator
 {
-    public long FasCode { get; set; }
-    public string FasName { get; set; } = string.Empty;
-    public int CategoryCode { get; set; }
-    public string CategoryHead { get; set; } = string.Empty;
+    [ObservableProperty]
+    public long fasCode;
+
+    [ObservableProperty]
+    public string fasName  = string.Empty;
+
+    [ObservableProperty]
+    public int categoryCode;
+
+    [ObservableProperty]
+    public string categoryHead  = string.Empty;
 }
 
-public class FasHeadSubCategories
+public partial class FasHeadSubCategories : ObservableValidator
 {
-    public long SubCode { get; set; }
-    public string SubName { get; set; } = string.Empty;
-    public string SelectedBranch { get; set; } = string.Empty;
-    public int CategoryCode { get; set; }
-    public string CategoryHead { get; set; } = string.Empty;
+    [ObservableProperty]
+    public long subCode;
+
+    [ObservableProperty]
+    public string subName = string.Empty;
+
+    [ObservableProperty]
+    public string selectedBranch  = string.Empty;
+
+    [ObservableProperty]
+    public int categoryCode;
+
+    [ObservableProperty]
+    public string categoryHead = string.Empty;
 }
