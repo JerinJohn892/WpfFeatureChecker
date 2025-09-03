@@ -41,16 +41,21 @@ public partial class FasHeadDemoViewModel : ObservableValidator
 
         groupFasHeadSubCategories= GetSortedSubFasHeads(FullFasHeadSubCategories);
 
-        var detail1 = new TranDetailViewModel { AcCode = 1, CategoryCode = 1, CategoryHead = "Agent Name", AdjAmount = 1000, IsSubOptionsPresent=false };
+        var detail1 = new TranDetailViewModel { AdjAmount = 1000 };
+        UpdateTranDetail(detail1, FasHeads, groupFasHeadSubCategories);
+        detail1.AcCode = 1;
         TranDetails.Add(detail1);
 
-
-        var detail2 = new TranDetailViewModel { AcCode = 2, CategoryCode = 2, CategoryHead = "Agent Name", IsSubOptionsPresent = true };
+        var detail2 = new TranDetailViewModel();
+        UpdateTranDetail(detail2, FasHeads, groupFasHeadSubCategories);
+        detail2.AcCode = 2;
         detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 201, Amount = 300 });
         detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 202, Amount = 200 });
         TranDetails.Add(detail2);
 
-        var detail3 = new TranDetailViewModel { AcCode = 3, CategoryCode = 3, CategoryHead = "Due-by Head", AdjAmount = 150, IsSubOptionsPresent = false };
+        var detail3 = new TranDetailViewModel { AdjAmount = 150 };
+        UpdateTranDetail(detail3, FasHeads, groupFasHeadSubCategories);
+        detail3.AcCode = 3;
         TranDetails.Add(detail3);
     }
 
