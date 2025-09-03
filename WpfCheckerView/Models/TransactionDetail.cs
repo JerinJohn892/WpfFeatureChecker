@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WpfCheckerView.Models;
@@ -33,6 +34,23 @@ public partial class TranDetailViewModel : ObservableValidator
     public DateTime tranDate;
     [ObservableProperty]
     public int acCode;
+    partial void OnAcCodeChanged(int oldValue, int newValue)
+    {
+        if (FasHeads == null)
+            return;
+
+        var selected = FasHeads.FirstOrDefault(f => f.FasCode == newValue);
+        if (selected != null)
+        {
+            CategoryHead = selected.CategoryHead;
+            CategoryCode = selected.CategoryCode;
+        }
+        else
+        {
+            CategoryHead = null;
+            CategoryCode = 0;
+        }
+    }
     [ObservableProperty]
     public int categoryCode;
     partial void OnCategoryCodeChanged(int oldValue, int newValue)
@@ -79,6 +97,7 @@ public partial class TranDetailViewModel : ObservableValidator
             foreach (TranSubDetailViewModel item in e.NewItems)
             {
                 item.PropertyChanged += SubDetail_PropertyChanged;
+                item.FasHeadSubCategories = SubFasHeads;
             }
         }
         if (e.OldItems != null)
@@ -109,8 +128,22 @@ public partial class TranDetailViewModel : ObservableValidator
 
     private void CategoryCodeChange(int newValue)
     {
-        //ToDo: Implement the logic to handle category code change
-        // CategoryCode has changed, So update the SubFasHeads accordingly from GroupFasHeadSubCategories 
+        if (GroupFasHeadSubCategories != null &&
+            GroupFasHeadSubCategories.TryGetValue(newValue, out var subHeads))
+        {
+            SubFasHeads = new ObservableCollection<FasHeadSubCategories>(subHeads);
+            IsSubOptionsPresent = SubFasHeads.Any();
+        }
+        else
+        {
+            SubFasHeads = new ObservableCollection<FasHeadSubCategories>();
+            IsSubOptionsPresent = false;
+        }
+
+        foreach (var item in TranSubDetails)
+        {
+            item.FasHeadSubCategories = SubFasHeads;
+        }
     }
 
 }

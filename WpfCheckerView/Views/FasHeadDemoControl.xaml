@@ -20,33 +20,34 @@
                                NavigationMode="Cell">
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridComboBoxColumn MappingName="AcCode" HeaderText="A/C Head" Width="{StaticResource ExpanderHeaderWidth}"
-                                               ItemsSource="{Binding FasHeads}"
+                                               ItemsSource="{Binding DataContext.FasHeads, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                DisplayMemberPath="FasName"
                                                SelectedValuePath="FasCode" />
                 <syncfusion:GridNumericColumn MappingName="AdjAmount" HeaderText="Adjustment" Width="{StaticResource AmountHeaderWidth}"/>
             </syncfusion:SfDataGrid.Columns>
-            <!--<syncfusion:SfDataGrid.RowExpanderStyle>
+            <syncfusion:SfDataGrid.RowExpanderStyle>
                 <Style TargetType="syncfusion:GridRowExpanderCell">
-                    <Setter Property="Visibility" Value="Visible"/>
+                    <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Record.HasSubHeads}" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed"/>
+                        <DataTrigger Binding="{Binding IsSubOptionsPresent}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </syncfusion:SfDataGrid.RowExpanderStyle>-->
+            </syncfusion:SfDataGrid.RowExpanderStyle>
             <syncfusion:SfDataGrid.DetailsViewDefinition>
                 <syncfusion:GridViewDefinition>
                     <syncfusion:GridViewDefinition.RelationalColumn>TranSubDetails</syncfusion:GridViewDefinition.RelationalColumn>
                     <syncfusion:GridViewDefinition.DataGrid>
                         <syncfusion:SfDataGrid AutoGenerateColumns="False"
                                                ShowRowHeader="False"
-                                               NavigationMode="Cell" Height="300">
+                                               NavigationMode="Cell" Height="300"
+                                               ItemsSource="{Binding TranSubDetails}">
                             <syncfusion:SfDataGrid.Columns>
                                 <syncfusion:GridComboBoxColumn Width="{StaticResource ExpanderHeaderWidth}"
-                                                               HeaderText="{Binding CategoryHead}"
+                                                               HeaderText="Sub Head"
                                                                MappingName="SubCode"
-                                                               ItemsSource="{Binding DataContext.FasHeadSubCategories, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                               ItemsSource="{Binding FasHeadSubCategories}"
                                                                DisplayMemberPath="SubName"
                                                                SelectedValuePath="SubCode"/>
                                 <syncfusion:GridNumericColumn MappingName="Amount" HeaderText="Amount" Width="{StaticResource AmountHeaderWidth}"/>
