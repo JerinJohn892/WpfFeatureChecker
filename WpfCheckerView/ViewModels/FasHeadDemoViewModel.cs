@@ -41,22 +41,22 @@ public partial class FasHeadDemoViewModel : ObservableValidator
 
         groupFasHeadSubCategories= GetSortedSubFasHeads(FullFasHeadSubCategories);
 
-        var detail1 = new TranDetailViewModel { AdjAmount = 1000 };
-        UpdateTranDetail(detail1, FasHeads, groupFasHeadSubCategories);
-        detail1.AcCode = 1;
-        TranDetails.Add(detail1);
+        //var detail1 = new TranDetailViewModel { AdjAmount = 1000 };
+        //UpdateTranDetail(detail1, FasHeads, groupFasHeadSubCategories);
+        //detail1.AcCode = 1;
+        //TranDetails.Add(detail1);
 
-        var detail2 = new TranDetailViewModel();
-        UpdateTranDetail(detail2, FasHeads, groupFasHeadSubCategories);
-        detail2.AcCode = 3;
-        detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 201, Amount = 300, FasHeadSubCategories= detail2.SubFasHeads });
-        detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 202, Amount = 200, FasHeadSubCategories = detail2.SubFasHeads });
-        TranDetails.Add(detail2);
+        //var detail2 = new TranDetailViewModel();
+        //UpdateTranDetail(detail2, FasHeads, groupFasHeadSubCategories);
+        //detail2.AcCode = 3;
+        //detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 201, Amount = 300, FasHeadSubCategories= detail2.SubFasHeads });
+        //detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 202, Amount = 200, FasHeadSubCategories = detail2.SubFasHeads });
+        //TranDetails.Add(detail2);
 
-        var detail3 = new TranDetailViewModel { AdjAmount = 150 };
-        UpdateTranDetail(detail3, FasHeads, groupFasHeadSubCategories);
-        detail3.AcCode = 2;
-        TranDetails.Add(detail3);
+        //var detail3 = new TranDetailViewModel { AdjAmount = 150 };
+        //UpdateTranDetail(detail3, FasHeads, groupFasHeadSubCategories);
+        //detail3.AcCode = 2;
+        //TranDetails.Add(detail3);
     }
 
     private Dictionary<int, IList<FasHeadSubCategories>> GetSortedSubFasHeads(IList<FasHeadSubCategories> fullSubFasHeads)
@@ -89,6 +89,10 @@ public partial class FasHeadDemoViewModel : ObservableValidator
                 break;
 
             case TranSubDetailViewModel tranSubDetailViewModel:
+                if (eventDetails.OriginalSender is SfDataGrid grid && grid.DataContext is TranDetailViewModel parent)
+                {
+                    tranSubDetailViewModel.FasHeadSubCategories = parent.SubFasHeads;
+                }
                 //UpdateSubTranDetail(property);
                 //SetFormDetailsTochildViewModel(property);
                 break;            
