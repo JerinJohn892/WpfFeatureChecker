@@ -26,12 +26,14 @@
                             AllowDeleting="True"
                             AutoGenerateColumns="False"
                             AllowFiltering="False"  FilterRowPosition="None"
-                            AddNewRowPosition="Bottom" EditTrigger="OnTap" 
-                            AllowGrouping="False" AllowSorting="False" 
-                            ShowRowHeader="True"  NavigationMode="Cell" >
+                            AddNewRowPosition="Bottom" EditTrigger="OnTap"
+                            AllowGrouping="False" AllowSorting="False"
+                            ShowRowHeader="True"  NavigationMode="Cell"
+                            DetailsViewExpanding="FasGrid_DetailsViewExpanding"
+                            QueryDetailsViewExpanderState="FasGrid_QueryDetailsViewExpanderState" >
             
             <nice:SfDataGridExt.Columns>
-                <syncfusion:GridComboBoxColumn MappingName="AcCode" 
+                <syncfusion:GridComboBoxColumn MappingName="AcCode"
                                                HeaderText="A/C Head"
                                                Width="{StaticResource ExpanderHeaderWidth}"
                                                ItemsSource="{Binding FasHeads}"
@@ -39,16 +41,6 @@
                                                SelectedValuePath="FasCode"/>
                 <syncfusion:GridNumericColumn MappingName="AdjAmount" HeaderText="Adjustment" Width="{StaticResource AmountHeaderWidth}"/>
             </nice:SfDataGridExt.Columns>
-            <!--<nice:SfDataGridExt.RowExpanderStyle>
-                <Style TargetType="syncfusion:GridRowExpanderCell">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsSubOptionsPresent}" Value="True">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </nice:SfDataGridExt.RowExpanderStyle>-->
             <nice:SfDataGridExt.DetailsViewDefinition>
                 <syncfusion:GridViewDefinition>
                     <syncfusion:GridViewDefinition.RelationalColumn>TranSubDetails</syncfusion:GridViewDefinition.RelationalColumn>
