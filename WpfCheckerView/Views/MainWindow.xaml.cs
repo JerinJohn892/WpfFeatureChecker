@@ -17,6 +17,12 @@ namespace WpfCheckerView.Views
            // SfSkinManager.SetTheme(this, new Theme() { ThemeName = "FluentLight" });
             var dataService = new MockDataService();
             DataContext = new MainViewModel(dataService, dataService);
+            SetDefaultFocus();
+        }
+
+        private void SetDefaultFocus()
+        {
+            idTextBox.Focus();
         }
     }
 }

@@ -41,17 +41,19 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="ID:" VerticalAlignment="Center" Width="100" Grid.Row="0" Grid.Column="0" />
-            <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeId, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" />
+            <TextBox x:Name="idTextBox" Width="120" Margin="5,0" Text="{Binding NewEmployeeId, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" />
 
             <TextBlock Text="Name:" VerticalAlignment="Center" Width="100" Grid.Row="1" Grid.Column="0" />
             <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" />
 
             <TextBlock Text="Department:" VerticalAlignment="Center" Width="100" Grid.Row="2" Grid.Column="0" />
-            <ComboBox Width="120" Margin="5,0"
+            <syncfusion:ComboBoxAdv Width="120" Margin="5,0"
+                      IsEditable="True"
                       ItemsSource="{Binding Departments}"
+                      AutoCompleteMode="Suggest"
                       DisplayMemberPath="Name"
                       SelectedValuePath="Name"
-                      SelectedValue="{Binding NewEmployeeDepartment, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedValue="{Binding NewEmployeeDepartment, UpdateSourceTrigger=Default}"
                       Grid.Row="2" Grid.Column="1" />
 
             <TextBlock Text="Salary:" VerticalAlignment="Center" Width="100" Grid.Row="3" Grid.Column="0" />
