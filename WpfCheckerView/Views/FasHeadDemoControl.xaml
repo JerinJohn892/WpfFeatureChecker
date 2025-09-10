@@ -41,9 +41,25 @@
                                                SelectedValuePath="FasCode"/>
                 <syncfusion:GridNumericColumn MappingName="AdjAmount" HeaderText="Adjustment" Width="{StaticResource AmountHeaderWidth}"/>
             </nice:SfDataGridExt.Columns>
+            <nice:SfDataGridExt.Resources>
+                <!-- Hide only the expander button when no sub options exist, keeping grid lines intact -->
+                <Style TargetType="syncfusion:GridDetailsViewExpanderCell">
+                    <!-- Collapse the expander icon and disable interaction when no sub options exist -->
+                    <Setter Property="ExpanderIconVisibility" Value="Collapsed"/>
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+                    <Setter Property="IsExpanded" Value="False"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSubOptionsPresent}" Value="True">
+                            <!-- Show the expander icon and enable interaction when sub options are present -->
+                            <Setter Property="ExpanderIconVisibility" Value="Visible"/>
+                            <Setter Property="IsHitTestVisible" Value="True"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </nice:SfDataGridExt.Resources>
             <nice:SfDataGridExt.DetailsViewDefinition>
-                <syncfusion:GridViewDefinition>
-                    <syncfusion:GridViewDefinition.RelationalColumn>TranSubDetails</syncfusion:GridViewDefinition.RelationalColumn>
+                <syncfusion:GridViewDefinition RelationalColumn="TranSubDetails">
+                    <!--<syncfusion:GridViewDefinition.RelationalColumn>TranSubDetails</syncfusion:GridViewDefinition.RelationalColumn>-->
                     <syncfusion:GridViewDefinition.DataGrid>
                         <nice:SfDataGridExt                             
                             AllowEditing="True"
