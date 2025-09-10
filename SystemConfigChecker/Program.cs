@@ -135,14 +135,66 @@ public static class Program
 
     private static string? GetHardDiskSerialNumber()
     {
-        using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
-        using var results = searcher.Get();
-        foreach (ManagementObject obj in results)
+        // System.Management is only supported on Windows. Avoid a
+        // PlatformNotSupportedException when the code is executed on
+        // other operating systems.
+        if (!OperatingSystem.IsWindows())
         {
-            using (obj)
+            return null;
+        }
+
+        try
+        {
+            var scope = new ManagementScope(@"\\.\root\cimv2");
+            scope.Options.Impersonation = ImpersonationLevel.Impersonate;
+            scope.Options.EnablePrivileges = true;
+            scope.Connect();
+
+            // Determine the system drive (e.g., "C:").
+            var systemDrive = Path.GetPathRoot(Environment.SystemDirectory)?.TrimEnd('\\');
+            if (string.IsNullOrEmpty(systemDrive))
             {
-                return obj["SerialNumber"]?.ToString()?.Trim();
+                return null;
             }
+
+            // Find the partition associated with the system drive.
+            var partitionQuery =
+                $"ASSOCIATORS OF {{Win32_LogicalDisk.DeviceID='{systemDrive}'}} WHERE AssocClass=Win32_LogicalDiskToPartition";
+            using var partitionSearcher = new ManagementObjectSearcher(scope, new ObjectQuery(partitionQuery));
+            using var partitions = partitionSearcher.Get();
+
+            foreach (ManagementObject partition in partitions)
+            {
+                using (partition)
+                {
+                    var driveQuery =
+                        $"ASSOCIATORS OF {{{partition.Path.RelativePath}}} WHERE AssocClass=Win32_DiskDriveToDiskPartition";
+                    using var driveSearcher = new ManagementObjectSearcher(scope, new ObjectQuery(driveQuery));
+                    using var drives = driveSearcher.Get();
+
+                    foreach (ManagementObject drive in drives)
+                    {
+                        using (drive)
+                        {
+                            var mediaType = drive["MediaType"]?.ToString();
+                            if (mediaType?.Contains("Removable", StringComparison.OrdinalIgnoreCase) == true)
+                            {
+                                continue;
+                            }
+
+                            return drive["SerialNumber"]?.ToString()?.Trim();
+                        }
+                    }
+                }
+            }
+        }
+        catch (ManagementException)
+        {
+            return null;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return null;
         }
 
         return null;
@@ -150,14 +202,36 @@ public static class Program
 
     private static string? GetBaseBoardSerialNumber()
     {
-        using var searcher = new ManagementObjectSearcher("SELECT SerialNumber FROM Win32_BaseBoard");
-        using var results = searcher.Get();
-        foreach (ManagementObject obj in results)
+        if (!OperatingSystem.IsWindows())
         {
-            using (obj)
+            return null;
+        }
+
+        try
+        {
+            var scope = new ManagementScope(@"\\.\root\cimv2");
+            scope.Options.Impersonation = ImpersonationLevel.Impersonate;
+            scope.Options.EnablePrivileges = true;
+            scope.Connect();
+
+            using var searcher = new ManagementObjectSearcher(scope,
+                new ObjectQuery("SELECT SerialNumber FROM Win32_BaseBoard"));
+            using var results = searcher.Get();
+            foreach (ManagementObject obj in results)
             {
-                return obj["SerialNumber"]?.ToString();
+                using (obj)
+                {
+                    return obj["SerialNumber"]?.ToString();
+                }
             }
+        }
+        catch (ManagementException)
+        {
+            return null;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return null;
         }
 
         return null;
