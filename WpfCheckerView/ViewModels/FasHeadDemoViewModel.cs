@@ -48,14 +48,14 @@ public partial class FasHeadDemoViewModel : ObservableValidator
 
         var detail2 = new TranDetailViewModel();
         UpdateTranDetail(detail2, FasHeads, groupFasHeadSubCategories);
-        detail2.AcCode = 2;
-        detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 201, Amount = 300 });
-        detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 202, Amount = 200 });
+        detail2.AcCode = 3;
+        detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 201, Amount = 300, FasHeadSubCategories= detail2.SubFasHeads });
+        detail2.TranSubDetails.Add(new TranSubDetailViewModel { SubCode = 202, Amount = 200, FasHeadSubCategories = detail2.SubFasHeads });
         TranDetails.Add(detail2);
 
         var detail3 = new TranDetailViewModel { AdjAmount = 150 };
         UpdateTranDetail(detail3, FasHeads, groupFasHeadSubCategories);
-        detail3.AcCode = 3;
+        detail3.AcCode = 2;
         TranDetails.Add(detail3);
     }
 

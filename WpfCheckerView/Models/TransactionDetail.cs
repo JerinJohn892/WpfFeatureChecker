@@ -33,8 +33,8 @@ public partial class TranDetailViewModel : ObservableValidator
     [ObservableProperty]
     public DateTime tranDate;
     [ObservableProperty]
-    public int acCode;
-    partial void OnAcCodeChanged(int oldValue, int newValue)
+    public long acCode;
+    partial void OnAcCodeChanged(long oldValue, long newValue)
     {
         if (FasHeads == null)
             return;
@@ -88,7 +88,8 @@ public partial class TranDetailViewModel : ObservableValidator
         }
     }
 
-    public ObservableCollection<TranSubDetailViewModel> TranSubDetails { get; set; } = new();
+    [ObservableProperty]
+    public ObservableCollection<TranSubDetailViewModel> tranSubDetails  = new();
 
     private void TranSubDetails_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {

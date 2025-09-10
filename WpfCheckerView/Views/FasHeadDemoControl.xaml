@@ -22,18 +22,24 @@
     <Grid>
         <nice:SfDataGridExt x:Name="FasGrid"
                                ItemsSource="{Binding TranDetails}"
-                               AutoGenerateColumns="False"
-                               ShowRowHeader="False"
-                               NavigationMode="Cell">
+                            AllowEditing="True"
+                            AllowDeleting="True"
+                            AutoGenerateColumns="False"
+                            AllowFiltering="False"  FilterRowPosition="None"
+                            AddNewRowPosition="Bottom" EditTrigger="OnTap" 
+                            AllowGrouping="False" AllowSorting="False" 
+                            ShowRowHeader="True"  NavigationMode="Cell" >
             
             <nice:SfDataGridExt.Columns>
-                <syncfusion:GridComboBoxColumn MappingName="AcCode" HeaderText="A/C Head" Width="{StaticResource ExpanderHeaderWidth}"
-                                               ItemsSource="{Binding TestAccounts}"
+                <syncfusion:GridComboBoxColumn MappingName="AcCode" 
+                                               HeaderText="A/C Head"
+                                               Width="{StaticResource ExpanderHeaderWidth}"
+                                               ItemsSource="{Binding FasHeads}"
                                                DisplayMemberPath="FasName"
-                                               SelectedValuePath="FasCode" />
+                                               SelectedValuePath="FasCode"/>
                 <syncfusion:GridNumericColumn MappingName="AdjAmount" HeaderText="Adjustment" Width="{StaticResource AmountHeaderWidth}"/>
             </nice:SfDataGridExt.Columns>
-            <!--<syncfusion:SfDataGrid.RowExpanderStyle>
+            <!--<nice:SfDataGridExt.RowExpanderStyle>
                 <Style TargetType="syncfusion:GridRowExpanderCell">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
@@ -42,28 +48,50 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </syncfusion:SfDataGrid.RowExpanderStyle>-->
-            <!--<syncfusion:SfDataGrid.DetailsViewDefinition>
+            </nice:SfDataGridExt.RowExpanderStyle>-->
+            <nice:SfDataGridExt.DetailsViewDefinition>
                 <syncfusion:GridViewDefinition>
                     <syncfusion:GridViewDefinition.RelationalColumn>TranSubDetails</syncfusion:GridViewDefinition.RelationalColumn>
                     <syncfusion:GridViewDefinition.DataGrid>
-                        <syncfusion:SfDataGrid AutoGenerateColumns="False"
-                                               ShowRowHeader="False"
-                                               NavigationMode="Cell" Height="300"
-                                               ItemsSource="{Binding TranSubDetails}">
-                            <syncfusion:SfDataGrid.Columns>
-                                <syncfusion:GridComboBoxColumn Width="{StaticResource ExpanderHeaderWidth}"
+                        <nice:SfDataGridExt                             
+                            AllowEditing="True"
+                            AllowDeleting="True"
+                            AutoGenerateColumns="False"
+                            AllowFiltering="False"  FilterRowPosition="None"
+                            AddNewRowPosition="Bottom" EditTrigger="OnTap" 
+                            AllowGrouping="False" AllowSorting="False" 
+                            ShowRowHeader="True"  NavigationMode="Cell"
+                            Height="300"    >
+                            <nice:SfDataGridExt.Columns>
+                                <!--<syncfusion:GridComboBoxColumn Width="{StaticResource ExpanderHeaderWidth}"
                                                                HeaderText="Sub Head"
                                                                MappingName="SubCode"
-                                                               ItemsSource="{Binding FasHeadSubCategories}"
+                                                               ItemsSource="{Binding FullFasHeadSubCategories}"
                                                                DisplayMemberPath="SubName"
-                                                               SelectedValuePath="SubCode"/>
+                                                               SelectedValuePath="SubCode"/>-->
+                                <syncfusion:GridTemplateColumn    MappingName="SubCode"
+                                                                  HeaderText="Sub Head"
+                                                                  Width="{StaticResource ExpanderHeaderWidth}">
+                                    <syncfusion:GridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding FasHeadSub.SubName}" />
+                                        </DataTemplate>
+                                    </syncfusion:GridTemplateColumn.CellTemplate>
+                                    <syncfusion:GridTemplateColumn.EditTemplate>
+                                        <DataTemplate>
+                                            <syncfusion:ComboBoxAdv
+                                                ItemsSource="{Binding FasHeadSubCategories}"          
+                                                DisplayMemberPath="SubName"
+                                                SelectedItem="{Binding FasHeadSub, Mode=TwoWay, UpdateSourceTrigger=Default}" />
+                                        </DataTemplate>
+                                    </syncfusion:GridTemplateColumn.EditTemplate>
+                                </syncfusion:GridTemplateColumn>
                                 <syncfusion:GridNumericColumn MappingName="Amount" HeaderText="Amount" Width="{StaticResource AmountHeaderWidth}"/>
-                            </syncfusion:SfDataGrid.Columns>
-                        </syncfusion:SfDataGrid>
+                            </nice:SfDataGridExt.Columns>
+                        </nice:SfDataGridExt>
                     </syncfusion:GridViewDefinition.DataGrid>
                 </syncfusion:GridViewDefinition>
-            </syncfusion:SfDataGrid.DetailsViewDefinition>-->
+            </nice:SfDataGridExt.DetailsViewDefinition>
         </nice:SfDataGridExt>
     </Grid>
 </UserControl>
