@@ -40,16 +40,20 @@ public partial class TranDetailViewModel : ObservableValidator
             return;
 
         var selected = FasHeads.FirstOrDefault(f => f.FasCode == newValue);
-        if (selected != null)
+
+        CategoryHead = selected?.CategoryHead;
+
+        var newCategoryCode = selected?.CategoryCode ?? 0;
+        if (CategoryCode != newCategoryCode)
         {
-            CategoryHead = selected.CategoryHead;
-            CategoryCode = selected.CategoryCode;
+            CategoryCode = newCategoryCode;
         }
         else
         {
-            CategoryHead = null;
-            CategoryCode = 0;
+            CategoryCodeChange(newCategoryCode);
         }
+
+        TranSubDetails.Clear();
     }
     [ObservableProperty]
     public int categoryCode;
