@@ -3,7 +3,6 @@ using Syncfusion.SfSkinManager;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
 using Syncfusion.Windows.Controls.Grid;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using WpfCheckerView.Models;
@@ -14,153 +13,149 @@ using GridQueryCoveredRangeEventArgs = Syncfusion.UI.Xaml.Grid.GridQueryCoveredR
 namespace WpfCheckerView.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Main application window that hosts the employee entry form and data grid.
+    /// <para>
+    /// The constructor wires up Syncfusion themes, creates the <see cref="MainViewModel"/>
+    /// with a <see cref="MockDataService"/> and configures the grid to merge cells with
+    /// identical employee IDs. The process flow is as follows:
+    /// <list type="number">
+    /// <item><description>Initialize WPF components and apply global themes.</description></item>
+    /// <item><description>Create the view model and set it as the <see cref="Window.DataContext"/>.</description></item>
+    /// <item><description>Assign focus to the ID text box for quick data entry.</description></item>
+    /// <item><description>Hook grid events that provide cell merging and property reflection.</description></item>
+    /// </list>
+    /// </para>
     /// </summary>
     public partial class MainWindow : Window
     {
-        private SfDataGrid dataGrid;
-        private string mergeColumnName;
-        private string[] ignoreColumnName;
+        private readonly SfDataGrid _dataGrid;
+        private readonly string _mergeColumnName = nameof(Employee.Id);
+        private readonly string[] _ignoredColumns =
+        {
+            nameof(Employee.Department),
+            nameof(Employee.Salary)
+        };
+        private IPropertyAccessProvider _propertyAccessor;
+
         public MainWindow()
         {
             InitializeComponent();
             SfSkinManager.ApplyStylesOnApplication = true;
-            // SfSkinManager.SetTheme(this, new Theme() { ThemeName = "FluentLight" });
+
             var dataService = new MockDataService();
             DataContext = new MainViewModel(dataService, dataService);
             SetDefaultFocus();
-            mergeColumnName = nameof(Employee.Id);
-            ignoreColumnName = new string[]
-            { 
-                nameof(Employee.Department) ,
-                nameof(Employee.Salary)
-            };
-            dataGrid = empDataGrid;
-            dataGrid.ItemsSourceChanged += dataGrid_ItemsSourceChanged;
-            dataGrid.QueryCoveredRange += dataGrid_QueryCoveredRange;
-            // dataGrid.SelectionUnit = GridSelectionUnit.Cell;
-            // dataGrid.NavigationMode = Syncfusion.UI.Xaml.Grid.NavigationMode.Cell;
+
+            _dataGrid = empDataGrid;
+            _dataGrid.ItemsSourceChanged += OnItemsSourceChanged;
+            _dataGrid.QueryCoveredRange += OnQueryCoveredRange;
+            // _dataGrid.SelectionUnit = GridSelectionUnit.Cell;
+            // _dataGrid.NavigationMode = Syncfusion.UI.Xaml.Grid.NavigationMode.Cell;
         }
 
-        private void SetDefaultFocus()
-        {
-            idTextBox.Focus();
-        }
+        private void SetDefaultFocus() => idTextBox.Focus();
 
         /// <summary>
-        /// Reflector for SfDataGrid’s data.
+        /// Handles the <see cref="SfDataGrid.ItemsSourceChanged"/> event and captures
+        /// a property accessor for reflection-based value comparisons.
         /// </summary>
-        IPropertyAccessProvider reflector = null;
-
-        /// <summary>
-        /// ItemsSourceChanged event handler.
-        /// </summary>
-
-        void dataGrid_ItemsSourceChanged(object sender, GridItemsSourceChangedEventArgs e)
+        private void OnItemsSourceChanged(object sender, GridItemsSourceChangedEventArgs e)
         {
-
-            if (dataGrid.View != null)
-                reflector = dataGrid.View.GetPropertyAccessProvider();
-
-            else
-                reflector = null;
+            _propertyAccessor = _dataGrid.View != null
+                ? _dataGrid.View.GetPropertyAccessProvider()
+                : null;
         }
 
         /// <summary>
-        /// QueryCoveredRange event handler
+        /// Handles the <see cref="SfDataGrid.QueryCoveredRange"/> event to merge
+        /// adjacent rows with identical values in the configured column.
         /// </summary>
-
-        void dataGrid_QueryCoveredRange(object sender, GridQueryCoveredRangeEventArgs e)
+        private void OnQueryCoveredRange(object sender, GridQueryCoveredRangeEventArgs e)
         {
-            var range = GetRange(e.GridColumn, e.RowColumnIndex.RowIndex, e.RowColumnIndex.ColumnIndex, e.Record);
+            var range = GetMergeRange(
+                e.GridColumn,
+                e.RowColumnIndex.RowIndex,
+                e.RowColumnIndex.ColumnIndex,
+                e.Record);
 
             if (range == null)
                 return;
 
-            // You can know that the range is already exist in Covered Cells by IsInRange method.
-
-            if (!dataGrid.CoveredCells.IsInRange(range))
+            // Only assign the range if it is not already covered.
+            if (!_dataGrid.CoveredCells.IsInRange(range))
             {
                 e.Range = range;
                 e.Handled = true;
-            }           
+            }
         }
 
         /// <summary>
-        /// Method to get the covered range based on cell value.
+        /// Determines the range of rows that should be merged for the specified cell.
         /// </summary>
         /// <param name="column">Column that contains the current cell.</param>
         /// <param name="rowIndex">Row index of the current cell.</param>
         /// <param name="columnIndex">Column index of the current cell.</param>
         /// <param name="rowData">Data object associated with the current row.</param>
-        /// <returns>
-        /// A <see cref="CoveredCellInfo"/> representing a range to be covered when
-        /// adjacent rows share the same employee id; otherwise, <c>null</c>.
-        /// </returns>
-        /// <remarks>
-        /// The method searches upward and downward from the given cell to find
-        /// consecutive rows that have the same <see cref="mergeColumnName"/>. When
-        /// matching rows are found, their indices are used to expand the returned
-        /// range so that the grid can render a single cell spanning those rows.
-        /// </remarks>
-
-        private CoveredCellInfo GetRange(GridColumn column, int rowIndex, int columnIndex, object rowData)
+        /// <returns>A <see cref="CoveredCellInfo"/> representing the merge range; otherwise, <c>null</c>.</returns>
+        private CoveredCellInfo GetMergeRange(GridColumn column, int rowIndex, int columnIndex, object rowData)
         {
-            // Ignore the column – if it should never be merged.
-            if (IsNonMergeableColumn(column))
+            if (IsIgnoredColumn(column))
                 return null;
 
-            // Compute the total number of rows displayed in the grid.
-            int recordsCount = this.dataGrid.GroupColumnDescriptions.Count != 0 ?
-                (this.dataGrid.View.TopLevelGroup.DisplayElements.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0)) :
-                (this.dataGrid.View.Records.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0));
+            int recordsCount = _dataGrid.GroupColumnDescriptions.Count != 0
+                ? _dataGrid.View.TopLevelGroup.DisplayElements.Count + _dataGrid.TableSummaryRows.Count + _dataGrid.UnBoundRows.Count + (_dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0)
+                : _dataGrid.View.Records.Count + _dataGrid.TableSummaryRows.Count + _dataGrid.UnBoundRows.Count + (_dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0);
 
-            var currentId = reflector.GetFormattedValue(rowData, mergeColumnName);
+            var currentId = _propertyAccessor.GetFormattedValue(rowData, _mergeColumnName);
+            var startIndex = _dataGrid.ResolveStartIndexBasedOnPosition();
 
-            // Determine the starting index for visible records.
-            var startIndex = dataGrid.ResolveStartIndexBasedOnPosition();
+            int startRow = FindStartRow(rowIndex, startIndex, currentId);
+            int endRow = FindEndRow(rowIndex, recordsCount, currentId);
 
-            // Search upwards for matching rows.
-            int startRow = rowIndex;
-            for (int i = rowIndex - 1; i >= startIndex; i--)
-            {
-                var previousData = this.dataGrid.GetRecordEntryAtRowIndex(i);
-
-                if (previousData == null || !previousData.IsRecords)
-                    break;
-
-                var previousId = reflector.GetFormattedValue((previousData as RecordEntry).Data, mergeColumnName);
-                if (previousId == null || !previousId.Equals(currentId))
-                    break;
-
-                startRow = i;
-            }
-
-            // Search downwards for matching rows.
-            int endRow = rowIndex;
-            for (int i = rowIndex + 1; i < recordsCount + 1; i++)
-            {
-                var nextData = this.dataGrid.GetRecordEntryAtRowIndex(i);
-
-                if (nextData == null || !nextData.IsRecords)
-                    break;
-
-                var nextId = reflector.GetFormattedValue((nextData as RecordEntry).Data, mergeColumnName);
-                if (nextId == null || !nextId.Equals(currentId))
-                    break;
-
-                endRow = i;
-            }
-
-            // If the range was extended, return it. Otherwise, no merge is necessary.
             return (startRow != rowIndex || endRow != rowIndex)
                 ? new CoveredCellInfo(columnIndex, columnIndex, startRow, endRow)
                 : null;
         }
 
-        private bool IsNonMergeableColumn(GridColumn column)
+        private int FindStartRow(int rowIndex, int startIndex, object currentId)
         {
-            foreach (var name in ignoreColumnName)
+            for (int i = rowIndex - 1; i >= startIndex; i--)
+            {
+                var previousData = _dataGrid.GetRecordEntryAtRowIndex(i);
+                if (previousData == null || !previousData.IsRecords)
+                    break;
+
+                var previousId = _propertyAccessor.GetFormattedValue((previousData as RecordEntry).Data, _mergeColumnName);
+                if (previousId == null || !previousId.Equals(currentId))
+                    break;
+
+                rowIndex = i;
+            }
+
+            return rowIndex;
+        }
+
+        private int FindEndRow(int rowIndex, int recordsCount, object currentId)
+        {
+            for (int i = rowIndex + 1; i < recordsCount + 1; i++)
+            {
+                var nextData = _dataGrid.GetRecordEntryAtRowIndex(i);
+                if (nextData == null || !nextData.IsRecords)
+                    break;
+
+                var nextId = _propertyAccessor.GetFormattedValue((nextData as RecordEntry).Data, _mergeColumnName);
+                if (nextId == null || !nextId.Equals(currentId))
+                    break;
+
+                rowIndex = i;
+            }
+
+            return rowIndex;
+        }
+
+        private bool IsIgnoredColumn(GridColumn column)
+        {
+            foreach (var name in _ignoredColumns)
             {
                 if (column.MappingName == name)
                     return true;
