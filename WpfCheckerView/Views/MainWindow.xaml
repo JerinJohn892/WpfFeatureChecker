@@ -75,7 +75,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <nice:SfDataGridExt Grid.Row="0" x:Name="dataGrid" AutoGenerateColumns="True"
+            <nice:SfDataGridExt Grid.Row="0" x:Name="dataGrid" AutoGenerateColumns="True" QueryCoveredRange="DataGrid_QueryCoveredRange"
                                    ItemsSource="{Binding Employees}"
                                   AllowEditing="True"                                           
                                 AllowDeleting="True" 
