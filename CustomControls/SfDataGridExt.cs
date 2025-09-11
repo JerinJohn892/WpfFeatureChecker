@@ -52,6 +52,10 @@ namespace Nice
         {
             this.CellRenderers.Remove("Template");
             this.CellRenderers.Add("Template", new CustomGridCellTemplateRenderer());
+            this.ExternalExceptionThrown += (sender, externalExceptionThrownEventArgs) =>
+            {
+                throw externalExceptionThrownEventArgs.Exception;
+            };
         }
 
         protected override void OnTextInput(TextCompositionEventArgs e)
