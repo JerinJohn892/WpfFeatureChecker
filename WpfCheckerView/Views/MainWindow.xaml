@@ -75,13 +75,14 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <syncfusion:SfDataGrid Grid.Row="0" x:Name="empDataGrid" 
-                                   ItemsSource="{Binding Employees}"  
-                                    SelectionUnit="Cell"
-                                   AllowEditing="True"
-                       NavigationMode="Cell">
-                <syncfusion:SfDataGrid.Columns>
-                    <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID" />
+            <nice:SfDataGridExt Grid.Row="0" x:Name="empDataGrid"
+                                ItemsSource="{Binding Employees}"
+                                SelectionUnit="Cell"
+                                AllowEditing="True"
+                                NavigationMode="Cell"
+                                AllowRowMerging="True">
+                <nice:SfDataGridExt.Columns>
+                    <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID" nice:SfDataGridExt.MergeColumn="True" />
                     <syncfusion:GridTextColumn MappingName="Name" HeaderText="Name" />
                     <syncfusion:GridComboBoxColumn
                         MappingName="Department"
@@ -89,13 +90,13 @@
                         ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
                         DisplayMemberPath="Name"
                         SelectedValuePath="Name" />
-                    <syncfusion:GridTextColumn MappingName="Salary" HeaderText="Salary" />
-                    <syncfusion:GridTextColumn MappingName="IdProof" HeaderText="ID Proof" />
+                    <syncfusion:GridTextColumn MappingName="Salary" HeaderText="Salary" nice:SfDataGridExt.MergeIgnored="True" />
+                    <syncfusion:GridTextColumn MappingName="IdProof" HeaderText="ID Proof" nice:SfDataGridExt.MergeIgnored="True" />
                     <syncfusion:GridTextColumn MappingName="PanNo" HeaderText="Pan No" />
                     <syncfusion:GridCheckBoxColumn MappingName="Status" HeaderText="Status" Width="50" />
-                    
-                </syncfusion:SfDataGrid.Columns>
-            </syncfusion:SfDataGrid>
+
+                </nice:SfDataGridExt.Columns>
+            </nice:SfDataGridExt>
             <local:FasHeadDemoControl  Grid.Row="1" Height="50" DataContext="{Binding FasHeadDemo}" />
             <!--<local:PaymentBalanceControl  Grid.Row="1" Height="350" DataContext="{Binding PaymentBalance}" />-->
             <!--<Expander Grid.Row="1" Header="Payment Methods">
