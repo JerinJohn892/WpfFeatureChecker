@@ -40,7 +40,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="ID:" VerticalAlignment="Center" Width="100" Grid.Row="0" Grid.Column="0" />
+            <TextBlock Text="ID:" VerticalAlignment="Center" Width="40" Grid.Row="0" Grid.Column="0" />
             <TextBox x:Name="idTextBox" Width="120" Margin="5,0" Text="{Binding NewEmployeeId, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" />
 
             <TextBlock Text="Name:" VerticalAlignment="Center" Width="100" Grid.Row="1" Grid.Column="0" />
@@ -75,7 +75,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <syncfusion:SfDataGrid Grid.Row="0" x:Name="dataGrid" 
+            <syncfusion:SfDataGrid Grid.Row="0" x:Name="empDataGrid" 
                                    ItemsSource="{Binding Employees}"  
                                     SelectionUnit="Cell"
                                    AllowEditing="True"

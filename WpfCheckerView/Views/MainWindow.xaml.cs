@@ -1,9 +1,11 @@
 using Syncfusion.Data;
+using Syncfusion.SfSkinManager;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
 using Syncfusion.Windows.Controls.Grid;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using WpfCheckerView.Models;
 using WpfCheckerView.Services;
 using WpfCheckerView.ViewModels;
@@ -16,17 +18,26 @@ namespace WpfCheckerView.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        private SfDataGrid dataGrid;
+        private string mergeColumnName;
+        private string[] ignoreColumnName;
         public MainWindow()
         {
             InitializeComponent();
-            //SfSkinManager.ApplyStylesOnApplication = true;
+            SfSkinManager.ApplyStylesOnApplication = true;
             // SfSkinManager.SetTheme(this, new Theme() { ThemeName = "FluentLight" });
             var dataService = new MockDataService();
             DataContext = new MainViewModel(dataService, dataService);
             SetDefaultFocus();
+            mergeColumnName = nameof(Employee.Id);
+            ignoreColumnName = new string[]
+            { 
+                nameof(Employee.Department) ,
+                nameof(Employee.Salary)
+            };
+            dataGrid = empDataGrid;
             dataGrid.ItemsSourceChanged += dataGrid_ItemsSourceChanged;
             dataGrid.QueryCoveredRange += dataGrid_QueryCoveredRange;
-            // dataGrid.QueryCoveredRange += DataGrid_QueryCoveredRange;
             // dataGrid.SelectionUnit = GridSelectionUnit.Cell;
             // dataGrid.NavigationMode = Syncfusion.UI.Xaml.Grid.NavigationMode.Cell;
         }
@@ -35,114 +46,7 @@ namespace WpfCheckerView.Views
         {
             idTextBox.Focus();
         }
-        //private void DataGrid_QueryCoveredRange(object? sender, GridQueryCoveredRangeEventArgs e)
-        //{
-        //    var grid = sender as SfDataGrid;
-        //    if (grid == null)
-        //        return;
 
-        //    if (e.RowColumnIndex.RowIndex <= 0 || e.RowColumnIndex.ColumnIndex <= 0)
-        //        return;
-
-        //    //if (e.RowColumnIndex.ColumnIndex == 1)
-        //    //{
-
-        //    //    if (e.RowColumnIndex.RowIndex >= 1 && e.RowColumnIndex.RowIndex <= 5)
-        //    //    {
-        //    //        e.Range = new CoveredCellInfo(1, 1, 1, 5);
-        //    //        e.Handled = true;
-        //    //    }
-        //    //}
-
-        //    var column = grid.Columns[e.RowColumnIndex.ColumnIndex - 1];
-        //    if (column.MappingName == nameof(Employee.Id) || column.MappingName == nameof(Employee.Name))
-        //        return;
-
-        //    var recordIndex = grid.ResolveToRecordIndex(e.RowColumnIndex.RowIndex);
-        //    if (recordIndex < 0)
-        //        return;
-
-        //    var records = grid.View.Records;
-        //    if (recordIndex >= records.Count)
-        //        return;
-
-        //    var data = records[recordIndex].Data;
-        //    var property = data.GetType().GetProperty(column.MappingName, BindingFlags.Public | BindingFlags.Instance);
-        //    if (property == null)
-        //        return;
-
-        //    var cellValue = property.GetValue(data);
-
-        //    int startRowIndex = e.RowColumnIndex.RowIndex;
-        //    int endRowIndex = e.RowColumnIndex.RowIndex;
-
-        //    for (int i = recordIndex - 1; i >= 0; i--)
-        //    {
-        //        var previousData = records[i].Data;
-        //        var previousValue = property.GetValue(previousData);
-        //        if (!Equals(cellValue, previousValue))
-        //            break;
-        //        startRowIndex = grid.ResolveToRowIndex(i);
-        //    }
-
-        //    for (int i = recordIndex + 1; i < records.Count; i++)
-        //    {
-        //        var nextData = records[i].Data;
-        //        var nextValue = property.GetValue(nextData);
-        //        if (!Equals(cellValue, nextValue))
-        //            break;
-        //        endRowIndex = grid.ResolveToRowIndex(i);
-        //    }
-
-        //    if (startRowIndex != endRowIndex)
-        //    {
-        //        e.Range = new CoveredCellInfo(startRowIndex, e.RowColumnIndex.ColumnIndex, endRowIndex, e.RowColumnIndex.ColumnIndex);
-        //        e.Handled = true;
-        //    }
-        //}
-        //private void DataGrid_QueryCoveredRange(object? sender, GridQueryCoveredRangeEventArgs e)
-        //{
-        //    if (e.RowColumnIndex.RowIndex <= 0 || e.RowColumnIndex.ColumnIndex <= 0)
-        //        return;
-
-        //    var column = dataGrid.Columns[e.RowColumnIndex.ColumnIndex - 1];
-        //    if (column == null)
-        //        return;
-
-        //    if (column.MappingName == nameof(Employee.Id) || column.MappingName == nameof(Employee.Name))
-        //        return;
-
-        //    var records = dataGrid.View.Records;
-        //    var provider = dataGrid.View.GetPropertyAccessProvider();
-        //    int rowIndex = e.RowColumnIndex.RowIndex;
-        //    int recordIndex = rowIndex - 1;
-
-        //    var value = provider.GetValue(records[recordIndex].Data, column.MappingName);
-
-        //    int start = rowIndex;
-        //    for (int i = recordIndex - 1; i >= 0; i--)
-        //    {
-        //        var prev = provider.GetValue(records[i].Data, column.MappingName);
-        //        if (!Equals(prev, value))
-        //            break;
-        //        start--;
-        //    }
-
-        //    int end = rowIndex;
-        //    for (int i = recordIndex + 1; i < records.Count; i++)
-        //    {
-        //        var next = provider.GetValue(records[i].Data, column.MappingName);
-        //        if (!Equals(next, value))
-        //            break;
-        //        end++;
-        //    }
-
-        //    if (end > start)
-        //    {
-        //        e.Range = new Syncfusion.UI.Xaml.Grid.CoveredCellInfo(start, e.RowColumnIndex.ColumnIndex, end, e.RowColumnIndex.ColumnIndex);
-        //        e.Handled = true;
-        //    }
-        //}
         /// <summary>
         /// Reflector for SfDataGrid’s data.
         /// </summary>
@@ -179,9 +83,7 @@ namespace WpfCheckerView.Views
             {
                 e.Range = range;
                 e.Handled = true;
-            }
-
-            //If the calculated range is already exist in CoveredCells, you can get the range using SfDataGrid.GetConflictRange (CoveredCellInfo coveredCellInfo) extension method.
+            }           
         }
 
         /// <summary>
@@ -197,15 +99,15 @@ namespace WpfCheckerView.Views
         /// </returns>
         /// <remarks>
         /// The method searches upward and downward from the given cell to find
-        /// consecutive rows that have the same <see cref="Employee.Id"/>. When
+        /// consecutive rows that have the same <see cref="mergeColumnName"/>. When
         /// matching rows are found, their indices are used to expand the returned
         /// range so that the grid can render a single cell spanning those rows.
         /// </remarks>
 
         private CoveredCellInfo GetRange(GridColumn column, int rowIndex, int columnIndex, object rowData)
         {
-            // Ignore the Department column – it should never be merged.
-            if (column.MappingName == nameof(Employee.Department))
+            // Ignore the column – if it should never be merged.
+            if (IsNonMergeableColumn(column))
                 return null;
 
             // Compute the total number of rows displayed in the grid.
@@ -213,7 +115,7 @@ namespace WpfCheckerView.Views
                 (this.dataGrid.View.TopLevelGroup.DisplayElements.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0)) :
                 (this.dataGrid.View.Records.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0));
 
-            var currentId = reflector.GetFormattedValue(rowData, nameof(Employee.Id));
+            var currentId = reflector.GetFormattedValue(rowData, mergeColumnName);
 
             // Determine the starting index for visible records.
             var startIndex = dataGrid.ResolveStartIndexBasedOnPosition();
@@ -227,7 +129,7 @@ namespace WpfCheckerView.Views
                 if (previousData == null || !previousData.IsRecords)
                     break;
 
-                var previousId = reflector.GetFormattedValue((previousData as RecordEntry).Data, nameof(Employee.Id));
+                var previousId = reflector.GetFormattedValue((previousData as RecordEntry).Data, mergeColumnName);
                 if (previousId == null || !previousId.Equals(currentId))
                     break;
 
@@ -243,7 +145,7 @@ namespace WpfCheckerView.Views
                 if (nextData == null || !nextData.IsRecords)
                     break;
 
-                var nextId = reflector.GetFormattedValue((nextData as RecordEntry).Data, nameof(Employee.Id));
+                var nextId = reflector.GetFormattedValue((nextData as RecordEntry).Data, mergeColumnName);
                 if (nextId == null || !nextId.Equals(currentId))
                     break;
 
@@ -256,5 +158,14 @@ namespace WpfCheckerView.Views
                 : null;
         }
 
+        private bool IsNonMergeableColumn(GridColumn column)
+        {
+            foreach (var name in ignoreColumnName)
+            {
+                if (column.MappingName == name)
+                    return true;
+            }
+            return false;
+        }
     }
 }
