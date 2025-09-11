@@ -187,78 +187,73 @@ namespace WpfCheckerView.Views
         /// <summary>
         /// Method to get the covered range based on cell value.
         /// </summary>
-        /// <param name="column"></param>
-        /// <param name="rowIndex"></param>
-        /// <param name="columnIndex"></param>
-        /// <param name="rowData"></param>
-        /// <returns> Compares the adjacent cell value and returns the range </returns>
-        /// <remark> If the method find that the adjacent values are equal by horizontal then it will merge vertically. And vice versa</remarks>
+        /// <param name="column">Column that contains the current cell.</param>
+        /// <param name="rowIndex">Row index of the current cell.</param>
+        /// <param name="columnIndex">Column index of the current cell.</param>
+        /// <param name="rowData">Data object associated with the current row.</param>
+        /// <returns>
+        /// A <see cref="CoveredCellInfo"/> representing a range to be covered when
+        /// adjacent rows share the same employee id; otherwise, <c>null</c>.
+        /// </returns>
+        /// <remarks>
+        /// The method searches upward and downward from the given cell to find
+        /// consecutive rows that have the same <see cref="Employee.Id"/>. When
+        /// matching rows are found, their indices are used to expand the returned
+        /// range so that the grid can render a single cell spanning those rows.
+        /// </remarks>
 
         private CoveredCellInfo GetRange(GridColumn column, int rowIndex, int columnIndex, object rowData)
         {
-            var range = new CoveredCellInfo(columnIndex, columnIndex, rowIndex, rowIndex);
+            // Ignore the Department column – it should never be merged.
             if (column.MappingName == nameof(Employee.Department))
                 return null;
 
-            var range = new CoveredCellInfo(columnIndex, columnIndex, rowIndex, rowIndex);
-
-            // total rows count.
+            // Compute the total number of rows displayed in the grid.
             int recordsCount = this.dataGrid.GroupColumnDescriptions.Count != 0 ?
-            (this.dataGrid.View.TopLevelGroup.DisplayElements.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0)) :
-            (this.dataGrid.View.Records.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0));
-
-            int previousRowIndex = -1;
-            int nextRowIndex = -1;
+                (this.dataGrid.View.TopLevelGroup.DisplayElements.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0)) :
+                (this.dataGrid.View.Records.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0));
 
             var currentId = reflector.GetFormattedValue(rowData, nameof(Employee.Id));
 
-            // Get previous row data based on Id.
+            // Determine the starting index for visible records.
             var startIndex = dataGrid.ResolveStartIndexBasedOnPosition();
 
+            // Search upwards for matching rows.
+            int startRow = rowIndex;
             for (int i = rowIndex - 1; i >= startIndex; i--)
             {
                 var previousData = this.dataGrid.GetRecordEntryAtRowIndex(i);
 
                 if (previousData == null || !previousData.IsRecords)
                     break;
+
                 var previousId = reflector.GetFormattedValue((previousData as RecordEntry).Data, nameof(Employee.Id));
-
-                if (previousId == null)
+                if (previousId == null || !previousId.Equals(currentId))
                     break;
 
-                if (!previousId.Equals(currentId))
-                    break;
-                previousRowIndex = i;
+                startRow = i;
             }
 
-            // Get next row data based on Id.
+            // Search downwards for matching rows.
+            int endRow = rowIndex;
             for (int i = rowIndex + 1; i < recordsCount + 1; i++)
             {
                 var nextData = this.dataGrid.GetRecordEntryAtRowIndex(i);
 
                 if (nextData == null || !nextData.IsRecords)
                     break;
+
                 var nextId = reflector.GetFormattedValue((nextData as RecordEntry).Data, nameof(Employee.Id));
-
-                if (nextId == null)
+                if (nextId == null || !nextId.Equals(currentId))
                     break;
 
-                if (!nextId.Equals(currentId))
-                    break;
-                nextRowIndex = i;
+                endRow = i;
             }
 
-            if (previousRowIndex != -1 || nextRowIndex != -1)
-            {
-
-                if (previousRowIndex != -1)
-                    range = new CoveredCellInfo(range.Left, range.Right, previousRowIndex, range.Bottom);
-
-                if (nextRowIndex != -1)
-                    range = new CoveredCellInfo(range.Left, range.Right, range.Top, nextRowIndex);
-                return range;
-            }
-            return null;
+            // If the range was extended, return it. Otherwise, no merge is necessary.
+            return (startRow != rowIndex || endRow != rowIndex)
+                ? new CoveredCellInfo(columnIndex, columnIndex, startRow, endRow)
+                : null;
         }
 
     }
