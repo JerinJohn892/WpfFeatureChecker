@@ -144,7 +144,7 @@ namespace WpfCheckerView.Views
         //    }
         //}
         /// <summary>
-        /// Reflector for SfDataGrid’s data.
+        /// Reflector for SfDataGridâ€™s data.
         /// </summary>
         IPropertyAccessProvider reflector = null;
 
@@ -197,73 +197,22 @@ namespace WpfCheckerView.Views
         private CoveredCellInfo GetRange(GridColumn column, int rowIndex, int columnIndex, object rowData)
         {
             var range = new CoveredCellInfo(columnIndex, columnIndex, rowIndex, rowIndex);
-            object data = reflector.GetFormattedValue(rowData, column.MappingName);
+            if (column.MappingName == nameof(Employee.Department))
+                return null;
 
-            GridColumn leftColumn = null;
-            GridColumn rightColumn = null;
+            var range = new CoveredCellInfo(columnIndex, columnIndex, rowIndex, rowIndex);
 
             // total rows count.
             int recordsCount = this.dataGrid.GroupColumnDescriptions.Count != 0 ?
             (this.dataGrid.View.TopLevelGroup.DisplayElements.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0)) :
             (this.dataGrid.View.Records.Count + this.dataGrid.TableSummaryRows.Count + this.dataGrid.UnBoundRows.Count + (this.dataGrid.AddNewRowPosition == AddNewRowPosition.Top ? +1 : 0));
 
-            // Merge Horizontally
-
-            // compare right column               
-
-            for (int i = dataGrid.Columns.IndexOf(column); i < this.dataGrid.Columns.Count - 1; i++)
-            {
-                var compareData = reflector.GetFormattedValue(rowData, dataGrid.Columns[i + 1].MappingName);
-
-                if (compareData == null)
-                    break;
-
-                if (!compareData.Equals(data))
-                    break;
-                rightColumn = dataGrid.Columns[i + 1];
-            }
-
-            // compare left column.
-
-            for (int i = dataGrid.Columns.IndexOf(column); i > 0; i--)
-            {
-                var compareData = reflector.GetFormattedValue(rowData, dataGrid.Columns[i - 1].MappingName);
-
-                if (compareData == null)
-                    break;
-
-                if (!compareData.Equals(data))
-                    break;
-                leftColumn = dataGrid.Columns[i - 1];
-            }
-
-            if (leftColumn != null || rightColumn != null)
-            {
-
-                // set left index
-
-                if (leftColumn != null)
-                {
-                    var leftColumnIndex = this.dataGrid.ResolveToScrollColumnIndex(this.dataGrid.Columns.IndexOf(leftColumn));
-                    range = new CoveredCellInfo(leftColumnIndex, range.Right, range.Top, range.Bottom);
-                }
-
-                // set right index
-
-                if (rightColumn != null)
-                {
-                    var rightColumnIndex = this.dataGrid.ResolveToScrollColumnIndex(this.dataGrid.Columns.IndexOf(rightColumn));
-                    range = new CoveredCellInfo(range.Left, rightColumnIndex, range.Top, range.Bottom);
-                }
-                return range;
-            }
-
-            // Merge Vertically from the row index.
-
             int previousRowIndex = -1;
             int nextRowIndex = -1;
 
-            // Get previous row data.                
+            var currentId = reflector.GetFormattedValue(rowData, nameof(Employee.Id));
+
+            // Get previous row data based on Id.
             var startIndex = dataGrid.ResolveStartIndexBasedOnPosition();
 
             for (int i = rowIndex - 1; i >= startIndex; i--)
@@ -272,30 +221,29 @@ namespace WpfCheckerView.Views
 
                 if (previousData == null || !previousData.IsRecords)
                     break;
-                var compareData = reflector.GetFormattedValue((previousData as RecordEntry).Data, column.MappingName);
+                var previousId = reflector.GetFormattedValue((previousData as RecordEntry).Data, nameof(Employee.Id));
 
-                if (compareData == null)
+                if (previousId == null)
                     break;
 
-                if (!compareData.Equals(data))
+                if (!previousId.Equals(currentId))
                     break;
                 previousRowIndex = i;
             }
 
-            // get next row data.
-
+            // Get next row data based on Id.
             for (int i = rowIndex + 1; i < recordsCount + 1; i++)
             {
                 var nextData = this.dataGrid.GetRecordEntryAtRowIndex(i);
 
                 if (nextData == null || !nextData.IsRecords)
                     break;
-                var compareData = reflector.GetFormattedValue((nextData as RecordEntry).Data, column.MappingName);
+                var nextId = reflector.GetFormattedValue((nextData as RecordEntry).Data, nameof(Employee.Id));
 
-                if (compareData == null)
+                if (nextId == null)
                     break;
 
-                if (!compareData.Equals(data))
+                if (!nextId.Equals(currentId))
                     break;
                 nextRowIndex = i;
             }
