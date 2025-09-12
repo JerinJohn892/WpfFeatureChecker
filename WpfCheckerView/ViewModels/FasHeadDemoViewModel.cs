@@ -39,6 +39,7 @@ public partial class FasHeadDemoViewModel : ObservableValidator
         FullFasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 206, SubName = "Loan", CategoryCode = 3, CategoryHead = "Due-by Head", SelectedBranch = "Main" });
         FullFasHeadSubCategories.Add(new FasHeadSubCategories { SubCode = 207, SubName = "GoldLoan", CategoryCode = 3, CategoryHead = "Due-by Head", SelectedBranch = "Main" });
 
+
         groupFasHeadSubCategories= GetSortedSubFasHeads(FullFasHeadSubCategories);
 
         //var detail1 = new TranDetailViewModel { AdjAmount = 1000 };
@@ -57,6 +58,7 @@ public partial class FasHeadDemoViewModel : ObservableValidator
         //UpdateTranDetail(detail3, FasHeads, groupFasHeadSubCategories);
         //detail3.AcCode = 2;
         //TranDetails.Add(detail3);
+
     }
 
     private Dictionary<int, IList<FasHeadSubCategories>> GetSortedSubFasHeads(IList<FasHeadSubCategories> fullSubFasHeads)
@@ -93,9 +95,11 @@ public partial class FasHeadDemoViewModel : ObservableValidator
                 {
                     tranSubDetailViewModel.FasHeadSubCategories = parent.SubFasHeads;
                 }
+
                 //UpdateSubTranDetail(property);
                 //SetFormDetailsTochildViewModel(property);
                 break;            
+
 
             default:
                 // Handle unknown types or log as needed
