@@ -79,10 +79,9 @@
                                 ItemsSource="{Binding Employees}"
                                 SelectionUnit="Cell"
                                 AllowEditing="True"
-                                NavigationMode="Cell"
-                                AllowRowMerging="True">
+                                NavigationMode="Cell">
                 <nice:SfDataGridExt.Columns>
-                    <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID" nice:SfDataGridExt.MergeColumn="True" />
+                    <syncfusion:GridTextColumn MappingName="Id" HeaderText="ID"  />
                     <syncfusion:GridTextColumn MappingName="Name" HeaderText="Name" />
                     <syncfusion:GridComboBoxColumn
                         MappingName="Department"
@@ -90,8 +89,8 @@
                         ItemsSource="{Binding DataContext.Departments, RelativeSource={RelativeSource AncestorType=Window}}"
                         DisplayMemberPath="Name"
                         SelectedValuePath="Name" />
-                    <syncfusion:GridTextColumn MappingName="Salary" HeaderText="Salary" nice:SfDataGridExt.MergeIgnored="True" />
-                    <syncfusion:GridTextColumn MappingName="IdProof" HeaderText="ID Proof" nice:SfDataGridExt.MergeIgnored="True" />
+                    <syncfusion:GridTextColumn MappingName="Salary" HeaderText="Salary"  />
+                    <syncfusion:GridTextColumn MappingName="IdProof" HeaderText="ID Proof"  />
                     <syncfusion:GridTextColumn MappingName="PanNo" HeaderText="Pan No" />
                     <syncfusion:GridCheckBoxColumn MappingName="Status" HeaderText="Status" Width="50" />
 
