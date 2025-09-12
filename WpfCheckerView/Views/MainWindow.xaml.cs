@@ -1,12 +1,14 @@
-using System.Windows;
-using WpfCheckerView.ViewModels;
-using WpfCheckerView.Services;
 using Syncfusion.SfSkinManager;
+using System.Windows;
+using WpfCheckerView.Services;
+using WpfCheckerView.ViewModels;
 
 namespace WpfCheckerView.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Main application window that hosts the employee entry form and data grid.
+    /// The grid relies on <see cref="CustomControls.SfDataGridExt"/> to provide
+    /// automatic row merging without any code-behind configuration.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -14,15 +16,11 @@ namespace WpfCheckerView.Views
         {
             InitializeComponent();
             SfSkinManager.ApplyStylesOnApplication = true;
-           // SfSkinManager.SetTheme(this, new Theme() { ThemeName = "FluentLight" });
+
             var dataService = new MockDataService();
             DataContext = new MainViewModel(dataService, dataService);
-            SetDefaultFocus();
-        }
-
-        private void SetDefaultFocus()
-        {
             idTextBox.Focus();
         }
     }
 }
+

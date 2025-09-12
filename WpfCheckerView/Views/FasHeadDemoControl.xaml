@@ -61,13 +61,14 @@
                 <syncfusion:GridViewDefinition RelationalColumn="TranSubDetails">
                     <!--<syncfusion:GridViewDefinition.RelationalColumn>TranSubDetails</syncfusion:GridViewDefinition.RelationalColumn>-->
                     <syncfusion:GridViewDefinition.DataGrid>
-                        <nice:SfDataGridExt                             
+                        <nice:SfDataGridExt
                             AllowEditing="True"
                             AllowDeleting="True"
                             AutoGenerateColumns="False"
                             AllowFiltering="False"  FilterRowPosition="None"
-                            AddNewRowPosition="Bottom" EditTrigger="OnTap" 
-                            AllowGrouping="False" AllowSorting="False" 
+                            AddNewRowPosition="Bottom" EditTrigger="OnTap"
+                            
+                            AllowGrouping="False" AllowSorting="False"
                             ShowRowHeader="True"  NavigationMode="Cell"
                             Height="300"    >
                             <nice:SfDataGridExt.Columns>

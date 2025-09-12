@@ -43,6 +43,7 @@ public partial class TranDetailViewModel : ObservableValidator
 
         CategoryHead = selected?.CategoryHead;
 
+
         var newCategoryCode = selected?.CategoryCode ?? 0;
         if (CategoryCode != newCategoryCode)
         {

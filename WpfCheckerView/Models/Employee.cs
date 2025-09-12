@@ -8,5 +8,6 @@ namespace WpfCheckerView.Models
         public decimal Salary { get; set; }
         public string IdProof { get; set; } = string.Empty;
         public string PanNo { get; set; } = string.Empty;
+        public bool Status { get; set; } = false;
     }
 }

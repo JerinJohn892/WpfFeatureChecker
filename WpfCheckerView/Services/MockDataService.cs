@@ -34,9 +34,12 @@ namespace WpfCheckerView.Services
 
             _employees = new ObservableCollection<Employee>
             {
-                new Employee { Id = 1, Name = "Alice", Department = "HR", Salary = 50000, IdProof = "ID123", PanNo = "PAN123" },
-                new Employee { Id = 2, Name = "Bob", Department = "IT", Salary = 60000, IdProof = "ID456", PanNo = "PAN456" },
-                new Employee { Id = 3, Name = "Charlie", Department = "Finance", Salary = 55000, IdProof = "ID789", PanNo = "PAN789" }
+                new Employee { Id = 1, Name = "Alice", Department = "HR", Salary = 50000, IdProof = "ID123", PanNo = "PAN123", Status = true },
+                new Employee { Id = 1, Name = "Alice", Department = "IT", Salary = 50000, IdProof = "ID123", PanNo = "PAN123", Status = true },
+                new Employee { Id = 3, Name = "Joy", Department = "Support", Salary = 40000, IdProof = "ID789", PanNo = "PAN123", Status = true },
+                new Employee { Id = 4, Name = "Sibu", Department = "Support", Salary = 6000, IdProof = "ID124", PanNo = "PAN456", Status = true },
+                new Employee { Id = 4, Name = "Sibu", Department = "Service", Salary = 6000, IdProof = "ID124", PanNo = "PAN456", Status = true },
+                new Employee { Id = 6, Name = "Charlie", Department = "Finance", Salary = 6000, IdProof = "ID799", PanNo = "PAN789", Status = true }
             };
         }
 
