@@ -66,8 +66,7 @@
                             AllowDeleting="True"
                             AutoGenerateColumns="False"
                             AllowFiltering="False"  FilterRowPosition="None"
-                            AddNewRowPosition="Bottom" EditTrigger="OnTap"
-                            
+                            AddNewRowPosition="Bottom" EditTrigger="OnTap"                            
                             AllowGrouping="False" AllowSorting="False"
                             ShowRowHeader="True"  NavigationMode="Cell"
                             Height="300"    >

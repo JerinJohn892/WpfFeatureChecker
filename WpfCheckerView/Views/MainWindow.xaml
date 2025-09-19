@@ -34,6 +34,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -41,32 +42,72 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="ID:" VerticalAlignment="Center" Width="40" Grid.Row="0" Grid.Column="0" />
-            <TextBox x:Name="idTextBox" Width="120" Margin="5,0" Text="{Binding NewEmployeeId, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" />
+            <TextBox x:Name="idTextBox" Width="120" Margin="5,0" Text="{Binding DTOClassData.NewEmployeeId, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" />
 
             <TextBlock Text="Name:" VerticalAlignment="Center" Width="100" Grid.Row="1" Grid.Column="0" />
-            <TextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" />
+            <TextBox Width="120" Margin="5,0" Text="{Binding DTOClassData.NewEmployeeName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" />
 
             <TextBlock Text="Department:" VerticalAlignment="Center" Width="100" Grid.Row="2" Grid.Column="0" />
-            <syncfusion:ComboBoxAdv Width="120" Margin="5,0"
+            <controls:ComboBoxAdvanced  Width="120" Margin="5,0"
                       IsEditable="True"
                       ItemsSource="{Binding Departments}"
                       AutoCompleteMode="Suggest"
+                      IsTextSearchEnabled ="True"
                       DisplayMemberPath="Name"
-                      SelectedValuePath="Name"
-                      SelectedValue="{Binding NewEmployeeDepartment, UpdateSourceTrigger=Default}"
+                      SelectedValuePath="Id"
+                      SelectedValue="{Binding DTOClassData.NewEmployeeDepartmentId, UpdateSourceTrigger=Default}"
                       Grid.Row="2" Grid.Column="1" />
 
             <TextBlock Text="Salary:" VerticalAlignment="Center" Width="100" Grid.Row="3" Grid.Column="0" />
-            <controls:DoubleTextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeSalary, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" />
-
+            <!--<controls:DoubleTextBox Width="120" Margin="5,0" Text="{Binding NewEmployeeSalary, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" />-->
+            <controls:ComboBoxAdvanced  Width="120" Margin="5,0"
+                      IsEditable="False"
+                      ItemsSource="{Binding Departments}"
+                      AutoCompleteMode="Suggest"
+                      IsTextSearchEnabled ="True"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Id"
+                      SelectedValue="{Binding DTOClassData.NewEmployeeDepartmentId2, UpdateSourceTrigger=Default,Mode=TwoWay}"
+                     Grid.Row="3" Grid.Column="1"/>
             <TextBlock Text="ID Proof:" VerticalAlignment="Center" Width="100" Grid.Row="4" Grid.Column="0" />
-            <controls:PatternTextBox Pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$" Width="120" Margin="5,0" Text="{Binding NewEmployeeIdProof, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" />
+            <!--<controls:PatternTextBox Pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$" Width="120" Margin="5,0" 
+                                     Text="{Binding DTOClassData.NewEmployeeIdProof, UpdateSourceTrigger=PropertyChanged}" 
+                                     Grid.Row="4" Grid.Column="1" />-->
+            <controls:ComboBoxAdvanced  Width="120" Margin="5,0"
+           IsEditable="False"
+           ItemsSource="{Binding Departments}"
+           AutoCompleteMode="Suggest"
+           IsTextSearchEnabled ="True"
+           DisplayMemberPath="Name"
+           SelectedValuePath="Id"
+           SelectedValue="{Binding DTOClassData.NewEmployeeDepartmentId3}"
+          Grid.Row="4" Grid.Column="1"/>
 
             <TextBlock Text="Pan No.:" VerticalAlignment="Center" Width="100" Grid.Row="5" Grid.Column="0" />
-            <controls:PatternTextBox Pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$" Width="120" Margin="5,0" Text="{Binding NewEmployeePanNo, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" />
+            <!--<controls:PatternTextBox Pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$" Width="120" Margin="5,0"
+                                     Text="{Binding DTOClassData.NewEmployeePanNo, UpdateSourceTrigger=PropertyChanged}" 
+                                     Grid.Row="5" Grid.Column="1" />-->
+            <controls:ComboBoxAdvanced  Width="120" Margin="5,0"
+           IsEditable="False"
+           ItemsSource="{Binding Departments}"
+           AutoCompleteMode="Suggest"
+           IsTextSearchEnabled ="True"
+           DisplayMemberPath="Name"
+           SelectedValuePath="Id"
+           SelectedValue="{Binding DTOClassData.NewEmployeeDepartmentId4}"
+          Grid.Row="5" Grid.Column="1"/>
+            <controls:ComboBoxAdvanced  Width="120" Margin="5,0"
+           IsEditable="False"
+           ItemsSource="{Binding Departments}"
+           AutoCompleteMode="Suggest"
+           IsTextSearchEnabled ="True"
+           DisplayMemberPath="Name"
+           SelectedValuePath="Id"
+           SelectedValue="{Binding DTOClassData.NewEmployeeDepartmentId5}"
+          Grid.Row="6" Grid.Column="1"/>
 
             <Button Content="Add" Width="80" Margin="0,5" HorizontalAlignment="Left"
-                    Command="{Binding AddNewEmployeeCommand}" Grid.Row="6" Grid.Column="1" />
+                    Command="{Binding AddNewEmployeeCommand}" Grid.Row="7" Grid.Column="1" />
         </Grid>
 
         <Grid Grid.Row="2">

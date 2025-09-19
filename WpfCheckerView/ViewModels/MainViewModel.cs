@@ -20,6 +20,9 @@ namespace WpfCheckerView.ViewModels
         private ObservableCollection<Department> departments = null!;
 
         [ObservableProperty]
+        private DTOClass dTOClassData;
+
+        [ObservableProperty]
         private string newEmployeeId = string.Empty;
 
         [ObservableProperty]
@@ -27,6 +30,13 @@ namespace WpfCheckerView.ViewModels
 
         [ObservableProperty]
         private string newEmployeeDepartment = string.Empty;
+
+
+        [ObservableProperty]
+        private int newEmployeeDepartmentId;
+
+        [ObservableProperty]
+        private int newEmployeeDepartmentId2;
 
         [ObservableProperty]
         private string newEmployeeSalary = string.Empty;
@@ -54,7 +64,7 @@ namespace WpfCheckerView.ViewModels
             _employeeService = employeeService;
             _departmentService = departmentService;
             PaymentBalance.TotalAmount = 100m;
-            
+            DTOClassData = new();
             LoadData();
 
             Themes = new ObservableCollection<string>
@@ -90,6 +100,17 @@ namespace WpfCheckerView.ViewModels
         [RelayCommand]
         private void AddNewEmployee()
         {
+            DTOClassData = new();
+            OnPropertyChanged(nameof(DTOClassData));
+            NewEmployeeId = string.Empty;
+            NewEmployeeName = string.Empty;
+            NewEmployeeDepartment = string.Empty;
+            NewEmployeeSalary = string.Empty;
+            NewEmployeeIdProof = string.Empty;
+            NewEmployeePanNo = string.Empty;
+            NewEmployeeDepartmentId = 0;
+            NewEmployeeDepartmentId2 = 0;
+            return;
             if (string.IsNullOrWhiteSpace(NewEmployeeId) ||
                 string.IsNullOrWhiteSpace(NewEmployeeName) ||
                 string.IsNullOrWhiteSpace(NewEmployeeDepartment) ||
