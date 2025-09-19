@@ -109,7 +109,10 @@ namespace WpfCheckerView.ViewModels
             NewEmployeeIdProof = string.Empty;
             NewEmployeePanNo = string.Empty;
             NewEmployeeDepartmentId = null;
-            NewEmployeeDepartmentId2 = null;
+            NewEmployeeDepartmentId2 = -1;
+            var departments = Departments;
+            Departments = null;
+            Departments = departments;
             return;
             if (string.IsNullOrWhiteSpace(NewEmployeeId) ||
                 string.IsNullOrWhiteSpace(NewEmployeeName) ||

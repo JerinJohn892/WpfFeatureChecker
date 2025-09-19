@@ -706,16 +706,17 @@ public class ComboBoxAdvanced : ComboBoxAdv
         //}
     }
 
-    //
-    // Summary:
-    //     Called when the selection changes.
-    //
-    // Parameters:
-    //   e:
-    //     The event data.
+
+
+  
+
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
         base.OnSelectionChanged(e);
+        if (!IsEditable && !AllowMultiSelect)
+        {
+            //CommitNonEditableSelection();
+        }
         //if (isFilter && AllowMultiSelect)
         //{
         //    return;
