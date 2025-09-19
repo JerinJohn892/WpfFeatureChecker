@@ -15,14 +15,14 @@ namespace WpfCheckerView.Models
 
         public string NewEmployeeDepartment { get; set; }
 
-        public int NewEmployeeDepartmentId { get; set; }
+        public int? NewEmployeeDepartmentId { get; set; }
 
-        public int NewEmployeeDepartmentId2 { get; set; }
+        public int? NewEmployeeDepartmentId2 { get; set; }
 
         public int? NewEmployeeDepartmentId3 { get; set; }
 
         public int? NewEmployeeDepartmentId4 { get; set; }
-        public int NewEmployeeDepartmentId5 { get; set; }
+        public int? NewEmployeeDepartmentId5 { get; set; }
 
         public string NewEmployeeSalary { get; set; }
 
