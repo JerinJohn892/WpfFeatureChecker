@@ -33,10 +33,10 @@ namespace WpfCheckerView.ViewModels
 
 
         [ObservableProperty]
-        private int newEmployeeDepartmentId;
+        private int? newEmployeeDepartmentId;
 
         [ObservableProperty]
-        private int newEmployeeDepartmentId2;
+        private int? newEmployeeDepartmentId2;
 
         [ObservableProperty]
         private string newEmployeeSalary = string.Empty;
@@ -108,8 +108,8 @@ namespace WpfCheckerView.ViewModels
             NewEmployeeSalary = string.Empty;
             NewEmployeeIdProof = string.Empty;
             NewEmployeePanNo = string.Empty;
-            NewEmployeeDepartmentId = 0;
-            NewEmployeeDepartmentId2 = 0;
+            NewEmployeeDepartmentId = null;
+            NewEmployeeDepartmentId2 = null;
             return;
             if (string.IsNullOrWhiteSpace(NewEmployeeId) ||
                 string.IsNullOrWhiteSpace(NewEmployeeName) ||
